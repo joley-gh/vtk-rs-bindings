@@ -20,10 +20,10 @@ fn main() {
     cone.set_height(0.8);
     cone.set_resolution(20);
     cone.set_direction(0.0, 1.0, 0.0);
-    
+
     let mut mapper1 = PolyDataMapper::new();
     mapper1.set_input_connection(cone.get_output_port());
-    
+
     let mut actor1 = Actor::new();
     actor1.set_mapper(&mut mapper1);
     actor1.set_position(-2.5, 2.0, 0.0);
@@ -37,10 +37,10 @@ fn main() {
     cylinder.set_height(1.0);
     cylinder.set_resolution(24);
     cylinder.set_capping(true);
-    
+
     let mut mapper2 = PolyDataMapper::new();
     mapper2.set_input_connection(cylinder.get_output_port());
-    
+
     let mut actor2 = Actor::new();
     actor2.set_mapper(&mut mapper2);
     actor2.set_position(0.0, 2.0, 0.0);
@@ -53,10 +53,10 @@ fn main() {
     cube.set_x_length(0.8);
     cube.set_y_length(0.8);
     cube.set_z_length(0.8);
-    
+
     let mut mapper3 = PolyDataMapper::new();
     mapper3.set_input_connection(cube.get_output_port());
-    
+
     let mut actor3 = Actor::new();
     actor3.set_mapper(&mut mapper3);
     actor3.set_position(2.5, 2.0, 0.0);
@@ -73,10 +73,10 @@ fn main() {
     plane.set_point2(-3.0, -1.5, 0.0);
     plane.set_x_resolution(10);
     plane.set_y_resolution(10);
-    
+
     let mut mapper4 = PolyDataMapper::new();
     mapper4.set_input_connection(plane.get_output_port());
-    
+
     let mut actor4 = Actor::new();
     actor4.set_mapper(&mut mapper4);
     let mut prop4 = actor4.get_property();
@@ -91,10 +91,10 @@ fn main() {
     disk.set_radial_resolution(6);
     disk.set_circumferential_resolution(24);
     disk.set_center(0.0, -2.0, 0.0);
-    
+
     let mut mapper5 = PolyDataMapper::new();
     mapper5.set_input_connection(disk.get_output_port());
-    
+
     let mut actor5 = Actor::new();
     actor5.set_mapper(&mut mapper5);
     let mut prop5 = actor5.get_property();
@@ -108,10 +108,10 @@ fn main() {
     arrow.set_shaft_radius(0.03);
     arrow.set_tip_resolution(16);
     arrow.set_shaft_resolution(16);
-    
+
     let mut mapper6 = PolyDataMapper::new();
     mapper6.set_input_connection(arrow.get_output_port());
-    
+
     let mut actor6 = Actor::new();
     actor6.set_mapper(&mut mapper6);
     actor6.set_position(2.5, -2.0, 0.0);
@@ -127,10 +127,10 @@ fn main() {
     hexagon.set_center(0.0, 0.0, 0.0);
     hexagon.set_normal(0.0, 0.0, 1.0);
     hexagon.generate_polygon_on();
-    
+
     let mut mapper7 = PolyDataMapper::new();
     mapper7.set_input_connection(hexagon.get_output_port());
-    
+
     let mut actor7 = Actor::new();
     actor7.set_mapper(&mut mapper7);
     let mut prop7 = actor7.get_property();
@@ -145,7 +145,7 @@ fn main() {
 
     let mut interactor = RenderWindowInteractor::new();
     interactor.set_render_window(&mut render_window);
-    
+
     let mut style = InteractorStyleTrackballCamera::new();
     interactor.set_interactor_style(&mut style);
 
@@ -162,6 +162,6 @@ fn main() {
     println!("- Arrow: proportional tip/shaft, angled placement");
     println!("- Hexagon: filled regular polygon");
     println!("\nUse mouse to interact: Left-drag=rotate, Right-drag/Scroll=zoom");
-    
+
     interactor.start();
 }

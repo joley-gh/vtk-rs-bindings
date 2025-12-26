@@ -71,6 +71,7 @@ add_library(vtkrs STATIC
    ${PROJECT_SOURCE_DIR}/include/vtk_sphere_source.h
    ${PROJECT_SOURCE_DIR}/include/vtk_tube_filter.h
    ${PROJECT_SOURCE_DIR}/include/vtk_glyph_3d.h
+   ${PROJECT_SOURCE_DIR}/include/vtk_world_point_picker.h
 )
 
 if (VTK094)
@@ -128,6 +129,7 @@ target_sources(vtkrs
         ${PROJECT_SOURCE_DIR}/src/vtk_sphere_source.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_tube_filter.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_glyph_3d.cpp
+        ${PROJECT_SOURCE_DIR}/src/vtk_world_point_picker.cpp
 )
 set_target_properties(vtkrs PROPERTIES LINKER_LANGUAGE CXX)
 

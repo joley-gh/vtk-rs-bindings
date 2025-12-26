@@ -130,8 +130,8 @@ fn main() {
     println!("\n═══════════════════════════════════════════════════════");
     println!("Opening interactive window...");
     println!("═══════════════════════════════════════════════════════");
-    println!("\nNote: True interactive picking requires VTK event callbacks,");
-    println!("which will be implemented in Sprint 2B (Event Handling).\n");
+    println!("\nThis demo shows programmatic picks (coordinates specified in code).");
+    println!("For interactive clicking, see the 'interactive_picking' example!\n");
 
     // Start the interaction
     render_window.render();

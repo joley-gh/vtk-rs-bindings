@@ -57,6 +57,7 @@ mod vtk_sphere;
 mod vtk_sphere_source;
 mod vtk_tube_filter;
 mod vtk_glyph_3d;
+mod vtk_world_point_picker;
 
 // VTK Initialization
 // This function must be called before using any VTK objects
@@ -123,3 +124,4 @@ pub use vtk_sphere::*;
 pub use vtk_sphere_source::*;
 pub use vtk_tube_filter::*;
 pub use vtk_glyph_3d::*;
+pub use vtk_world_point_picker::*;
