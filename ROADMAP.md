@@ -227,13 +227,47 @@ Mathematical surfaces and specialized geometric sources.
 - [x] **Toroidal Mode**: ALWAYS creates hole (thickness controls size, not existence)
 - [x] Example: `superquadric_demo.rs` - 20 shapes in 4 rows demonstrating morphing patterns
 
-### P3.3 Text Source - `vtk_text_source.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_text(text: &str)`
-- [ ] `set_backing(bool)` - add background plane
-- [ ] `get_output_port()`
-- [ ] Extruded text geometry for 3D labels
+### P3.3 Text Source - `vtk_text_source.rs` ✅ COMPLETE
+- [x] Create new module and C++ bindings
+- [x] `new()` / `delete()`
+- [x] `set_text(text: &str)`
+- [x] `set_backing(bool)` - add background plane
+- [x] `get_output_port()`
+- [x] Extruded text geometry for 3D labels
+- [x] Example: `text_demo.rs` - demonstrates extruded 3D text with backing plane
+
+### P3.4 Billboard Text - `vtk_follower.rs`, `vtk_vector_text.rs`, `vtk_command.rs` ✅ COMPLETE
+- [x] **vtkFollower** - Billboard actor that always faces camera
+  - [x] `new()` / `delete()`
+  - [x] `set_camera()` / `set_camera_ref()` - attach to camera
+  - [x] `set_mapper()` - set text geometry mapper
+  - [x] `set_position()` / `get_position()` - 3D placement
+  - [x] `set_scale()` / `get_scale()` - dynamic sizing
+  - [x] `as_raw_ptr()` - for renderer integration
+- [x] **vtkVectorText** - Lightweight 3D stroke text
+  - [x] `new()` / `delete()`
+  - [x] `set_text()` / `get_text()` - string handling via rust::String
+  - [x] `output_port()` - pipeline connection
+- [x] **vtkCommand/Observer** - Event callback system
+  - [x] RustCommand class with vtkObjectFactory integration
+  - [x] `Command::new()` - create observer
+  - [x] `set_callback()` - register extern "C" callback
+  - [x] Observable trait for Camera and CameraRef
+  - [x] `add_observer()` / `remove_observer()` - attach to VTK objects
+  - [x] Event constants (MODIFIED_EVENT, MOUSE_MOVE_EVENT, etc.)
+  - [x] Type-safe FFI using usize for unsigned long compatibility
+- [x] Example: `billboard_text_demo.rs` - 5x5 grid of FEM node labels with zoom-invariant scaling
+
+---
+
+## ✅ PRIORITY 3 COMPLETE! 🎉
+
+All advanced sources and billboard text features implemented:
+- **Parametric Surfaces**: Torus, Klein bottle, Möbius strip with mathematical precision
+- **Superquadrics**: Morphing shapes from cubes to spheres with toroidal mode
+- **3D Text**: Both extruded (TextSource) and stroke (VectorText) rendering
+- **Billboard System**: Camera-facing labels with dynamic zoom-invariant scaling
+- **Observer Pattern**: Full VTK event system integration for reactive updates
 
 ---
 
