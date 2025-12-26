@@ -86,6 +86,8 @@ add_library(vtkrs STATIC
    ${PROJECT_SOURCE_DIR}/include/vtk_follower.h
    ${PROJECT_SOURCE_DIR}/include/vtk_vector_text.h
    ${PROJECT_SOURCE_DIR}/include/vtk_text_actor.h
+   ${PROJECT_SOURCE_DIR}/include/vtk_lookup_table.h
+   ${PROJECT_SOURCE_DIR}/include/vtk_scalar_bar_actor.h
 )
 
 if (VTK094)
@@ -157,6 +159,8 @@ target_sources(vtkrs
         ${PROJECT_SOURCE_DIR}/src/vtk_follower.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_vector_text.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_text_actor.cpp
+        ${PROJECT_SOURCE_DIR}/src/vtk_lookup_table.cpp
+        ${PROJECT_SOURCE_DIR}/src/vtk_scalar_bar_actor.cpp
 )
 set_target_properties(vtkrs PROPERTIES LINKER_LANGUAGE CXX)
 

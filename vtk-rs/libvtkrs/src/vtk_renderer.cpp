@@ -4,6 +4,7 @@
 
 #include <vtkRenderer.h>
 #include <vtkActor.h>
+#include <vtkActor2D.h>
 #include <vtkCamera.h>
 
 vtkRenderer* renderer_new() {
@@ -20,6 +21,10 @@ void renderer_delete(vtkRenderer& renderer) {
 
 void renderer_add_actor(vtkRenderer& renderer, vtkActor* actor) {
     renderer.AddActor(actor);
+}
+
+void renderer_add_actor2d(vtkRenderer& renderer, vtkActor2D* actor) {
+    renderer.AddActor2D(actor);
 }
 
 void renderer_set_background(vtkRenderer& renderer, double r, double g, double b) {

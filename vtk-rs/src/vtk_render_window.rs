@@ -96,10 +96,12 @@ impl RenderWindow {
     }
 
     /// Add observer for window events (internal use)
-    pub(crate) fn add_observer_raw(&mut self, event: usize, command: *mut ffi::vtkCommand) -> usize {
-        unsafe {
-            ffi::render_window_add_observer(self.ptr.as_mut(), event, command)
-        }
+    pub(crate) fn add_observer_raw(
+        &mut self,
+        event: usize,
+        command: *mut ffi::vtkCommand
+    ) -> usize {
+        unsafe { ffi::render_window_add_observer(self.ptr.as_mut(), event, command) }
     }
 }
 

@@ -275,24 +275,46 @@ All advanced sources and billboard text features implemented:
 
 Text rendering and visual annotations for labeling and legends.
 
-### P4.1 Text Actor - `vtk_text_actor.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_input(text: &str)`
-- [ ] `set_position(x, y)` - normalized viewport coords [0,1]
-- [ ] `get_text_property()` → TextPropertyRef
-- [ ] `set_visibility(bool)`
-- [ ] Screen-space text rendering for HUD elements
+### P4.1 Text Actor - `vtk_text_actor.rs` ✅ COMPLETE
+- [x] Create new module and C++ bindings
+- [x] `new()` / `delete()`
+- [x] `set_input(text: &str)`
+- [x] `set_position(x, y)` - display coords (pixels)
+- [x] `set_position_normalized(fx, fy, width, height)` - normalized [0,1] with auto-resize
+- [x] `get_text_property()` → TextPropertyRef
+- [x] `set_visibility(bool)`
+- [x] Screen-space text rendering for HUD elements
+- [x] **TextProperty**: font size, family (Arial/Courier/Times), bold, italic, color, opacity
+- [x] **Text Alignment**: horizontal justification (left/center/right), vertical justification (bottom/center/top)
+- [x] **Auto-Resize System**: TextActorResizeManager with VTK observer pattern
+- [x] **FFI Pattern**: Extern "C" callbacks with user_data, Box<TextActor> for stable memory
+- [x] **Architecture**: Coordinate conversion in Rust, C++ glue for VTK API only
+- [x] Example: `text_actor_demo.rs` - 6 labels with different positions and alignments
+- [x] Commit: cbd9818
 
-### P4.2 Scalar Bar Actor - `vtk_scalar_bar_actor.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_lookup_table(lut)`
-- [ ] `set_title(text: &str)`
-- [ ] `set_number_of_labels(n)`
-- [ ] `set_position(x, y)` / `set_width(w)` / `set_height(h)`
-- [ ] `get_label_text_property()` / `get_title_text_property()`
-- [ ] Color bar legends for scientific visualization
+### P4.2 Scalar Bar Actor - `vtk_scalar_bar_actor.rs` ✅ COMPLETE
+- [x] Create new module and C++ bindings
+- [x] `new()` / `delete()`
+- [x] `set_lookup_table(lut)`
+- [x] `set_title(text: &str)`
+- [x] `set_number_of_labels(n)`
+- [x] `set_position(x, y)` / `set_width(w)` / `set_height(h)`
+- [x] `get_label_text_property()` / `get_title_text_property()`
+- [x] `set_orientation()` / `set_visibility()`
+- [x] Color bar legends for scientific visualization
+- [x] **LookupTable** - `vtk_lookup_table.rs`
+  - [x] `new()` / `delete()`
+  - [x] `set_range(min, max)` - data value range
+  - [x] `set_hue_range(min, max)` / `set_saturation_range()` / `set_value_range()` - HSV color control
+  - [x] `set_alpha_range(min, max)` - opacity control
+  - [x] `set_number_of_table_values(n)` - discrete/continuous gradient
+  - [x] `build()` - generate color table
+  - [x] `get_color(value)` → (r, g, b) - query colors
+- [x] **TextPropertyRef** - Shared with TextActor for font/color configuration
+- [x] **Renderer.add_actor2d()** - Added support for 2D actors
+- [x] Example: `scalar_bar_demo.rs` - 5×5 grid of spheres colored by temperature with color legend
+- [x] Architecture: C++ glue layer, Rust business logic
+- [x] FFI Pattern: Type aliases for cross-module vtkLookupTable and vtkTextProperty references
 
 ### P4.3 Legend Box Actor - `vtk_legend_box_actor.rs`
 - [ ] Create new module and C++ bindings

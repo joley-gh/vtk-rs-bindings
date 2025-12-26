@@ -11,6 +11,7 @@
 
 using vtkRenderer = ::vtkRenderer;
 using vtkActor = ::vtkActor;
+using vtkActor2D = ::vtkActor2D;
 using vtkCamera = ::vtkCamera;
 
 extern "C" {
@@ -27,6 +28,11 @@ void cxxbridge1$192$renderer_delete(::vtkRenderer &renderer) noexcept {
 void cxxbridge1$192$renderer_add_actor(::vtkRenderer &renderer, ::vtkActor *actor) noexcept {
   void (*renderer_add_actor$)(::vtkRenderer &, ::vtkActor *) = ::renderer_add_actor;
   renderer_add_actor$(renderer, actor);
+}
+
+void cxxbridge1$192$renderer_add_actor2d(::vtkRenderer &renderer, ::vtkActor2D *actor) noexcept {
+  void (*renderer_add_actor2d$)(::vtkRenderer &, ::vtkActor2D *) = ::renderer_add_actor2d;
+  renderer_add_actor2d$(renderer, actor);
 }
 
 void cxxbridge1$192$renderer_set_background(::vtkRenderer &renderer, double r, double g, double b) noexcept {

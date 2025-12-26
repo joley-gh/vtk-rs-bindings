@@ -6,11 +6,13 @@ mod ffi {
 
         type vtkRenderer;
         type vtkActor;
+        type vtkActor2D;
         type vtkCamera;
 
         fn renderer_new() -> *mut vtkRenderer;
         fn renderer_delete(renderer: Pin<&mut vtkRenderer>);
         unsafe fn renderer_add_actor(renderer: Pin<&mut vtkRenderer>, actor: *mut vtkActor);
+        unsafe fn renderer_add_actor2d(renderer: Pin<&mut vtkRenderer>, actor: *mut vtkActor2D);
         fn renderer_set_background(renderer: Pin<&mut vtkRenderer>, r: f64, g: f64, b: f64);
         fn renderer_get_active_camera(renderer: Pin<&mut vtkRenderer>) -> *mut vtkCamera;
         fn renderer_reset_camera(renderer: Pin<&mut vtkRenderer>);
@@ -69,6 +71,14 @@ impl Renderer {
     pub unsafe fn add_actor_raw(&mut self, actor_ptr: *mut std::ffi::c_void) {
         let actor_ptr = actor_ptr as *mut ffi::vtkActor;
         ffi::renderer_add_actor(self.ptr.as_mut(), actor_ptr);
+    }
+
+    /// Add a 2D actor (like ScalarBarActor or TextActor) to the renderer
+    pub fn add_actor2d(&mut self, actor: &mut crate::ScalarBarActor) {
+        unsafe {
+            let actor_ptr = actor.as_raw_ptr() as *mut ffi::vtkActor2D;
+            ffi::renderer_add_actor2d(self.ptr.as_mut(), actor_ptr);
+        }
     }
 
     pub fn set_background(&mut self, r: f64, g: f64, b: f64) {
