@@ -3,9 +3,11 @@ mod ffi {
     unsafe extern "C++" {
         include!("vtk_render_window.h");
         include!("vtk_renderer.h");
+        include!("vtk_command.h");
 
         type vtkRenderWindow;
         type vtkRenderer;
+        type vtkCommand;
 
         fn render_window_new() -> *mut vtkRenderWindow;
         fn render_window_delete(window: Pin<&mut vtkRenderWindow>);
@@ -31,6 +33,11 @@ mod ffi {
             data: *const u8,
             size: i32
         );
+        unsafe fn render_window_add_observer(
+            window: Pin<&mut vtkRenderWindow>,
+            event: usize,
+            command: *mut vtkCommand
+        ) -> usize;
     }
 }
 
@@ -85,6 +92,13 @@ impl RenderWindow {
     pub fn set_pixel_data(&mut self, data: &[u8]) {
         unsafe {
             ffi::render_window_set_pixel_data(self.ptr.as_mut(), data.as_ptr(), data.len() as i32);
+        }
+    }
+
+    /// Add observer for window events (internal use)
+    pub(crate) fn add_observer_raw(&mut self, event: usize, command: *mut ffi::vtkCommand) -> usize {
+        unsafe {
+            ffi::render_window_add_observer(self.ptr.as_mut(), event, command)
         }
     }
 }

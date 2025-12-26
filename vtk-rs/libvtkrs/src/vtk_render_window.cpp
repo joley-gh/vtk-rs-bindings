@@ -73,3 +73,7 @@ void render_window_set_pixel_data(vtkRenderWindow& window, const unsigned char* 
         pixels->Delete();
     }
 }
+
+size_t render_window_add_observer(vtkRenderWindow& window, size_t event, vtkCommand* command) {
+    return window.AddObserver(static_cast<unsigned long>(event), command);
+}

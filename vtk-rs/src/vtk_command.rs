@@ -43,6 +43,11 @@ impl Command {
         unsafe { Pin::new_unchecked(&mut *self.ptr) }
     }
 
+    /// Get raw pointer for FFI calls (internal use)
+    pub(crate) fn as_raw_ptr(&self) -> *mut ffi::RustCommand {
+        self.ptr
+    }
+
     /// Set a Rust callback function for this command.
     /// The callback will be invoked when the observed event occurs.
     ///

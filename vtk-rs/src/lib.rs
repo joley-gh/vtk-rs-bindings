@@ -72,6 +72,7 @@ mod vtk_superquadric_source;
 mod vtk_text_source;
 mod vtk_follower;
 mod vtk_vector_text;
+mod vtk_text_actor;
 
 // VTK Initialization
 // This function must be called before using any VTK objects
@@ -158,3 +159,4 @@ pub use vtk_superquadric_source::*;
 pub use vtk_text_source::*;
 pub use vtk_follower::*;
 pub use vtk_vector_text::*;
+pub use vtk_text_actor::*;
