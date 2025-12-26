@@ -211,14 +211,21 @@ Mathematical surfaces and specialized geometric sources.
   - [ ] Another non-orientable surface example
   - [ ] `set_radius(r)`
 
-### P3.2 Superquadric Source - `vtk_superquadric_source.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_theta_roundness(r)` / `set_phi_roundness(r)`
-- [ ] `set_thickness(t)` / `set_size(s)`
-- [ ] `set_toroidal(bool)` - switch between ellipsoid and toroid
-- [ ] `get_output_port()`
-- [ ] Smooth transitions between shapes (cube → sphere)
+### P3.2 Superquadric Source - `vtk_superquadric_source.rs` ✅ COMPLETE
+- [x] Create new module and C++ bindings
+- [x] `new()` / `delete()`
+- [x] `set_theta_roundness(r)` / `get_theta_roundness()` - east-west curvature (0.0=cube, 1.0=sphere)
+- [x] `set_phi_roundness(r)` / `get_phi_roundness()` - north-south curvature (0.0=cube, 1.0=sphere)
+- [x] `set_thickness(t)` / `get_thickness()` - hole size in toroidal mode
+- [x] `set_size(s)` / `get_size()` - overall scale
+- [x] `set_scale(x, y, z)` / `get_scale()` - non-uniform scaling
+- [x] `set_center(x, y, z)` / `get_center()` - position in 3D space
+- [x] `set_toroidal(bool)` / `get_toroidal()` - switch between ellipsoid (solid) and toroidal (donut) modes
+- [x] `set_theta_resolution(n)` / `set_phi_resolution(n)` - mesh detail
+- [x] `output_port()` - renamed to avoid trait shadowing
+- [x] **FFI Pattern**: References (&) not pointers (*), no const getters (VTK limitation)
+- [x] **Toroidal Mode**: ALWAYS creates hole (thickness controls size, not existence)
+- [x] Example: `superquadric_demo.rs` - 20 shapes in 4 rows demonstrating morphing patterns
 
 ### P3.3 Text Source - `vtk_text_source.rs`
 - [ ] Create new module and C++ bindings
