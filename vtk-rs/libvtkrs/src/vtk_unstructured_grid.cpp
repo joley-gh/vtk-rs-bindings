@@ -56,3 +56,9 @@ int unstructured_grid_get_number_of_cells(const vtkUnstructuredGrid& grid) {
 void unstructured_grid_get_bounds(const vtkUnstructuredGrid& grid, double* bounds) {
     const_cast<vtkUnstructuredGrid&>(grid).GetBounds(bounds);
 }
+
+// Point data access
+extern "C" vtkPointData* unstructured_grid_get_point_data(void* grid_ptr) {
+    vtkUnstructuredGrid* grid = static_cast<vtkUnstructuredGrid*>(grid_ptr);
+    return grid->GetPointData();
+}

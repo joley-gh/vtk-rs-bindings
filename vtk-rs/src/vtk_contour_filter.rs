@@ -51,7 +51,7 @@ impl ContourFilter {
             ffi::contour_filter_set_input_connection(self.ptr.as_mut(), algo_output);
         }
     }
-    
+
     /// Sets the input data directly (for data objects like ImageData)
     #[doc(alias = "SetInputData")]
     pub fn set_input_data(&mut self, data: &mut crate::ImageData) {

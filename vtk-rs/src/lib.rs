@@ -82,6 +82,7 @@ mod vtk_data_set_mapper;
 mod vtk_contour_filter;
 mod vtk_plane;
 mod vtk_clip_poly_data;
+mod vtk_warp_vector;
 
 // VTK Initialization
 // This function must be called before using any VTK objects
@@ -178,3 +179,4 @@ pub use vtk_data_set_mapper::*;
 pub use vtk_contour_filter::*;
 pub use vtk_plane::*;
 pub use vtk_clip_poly_data::*;
+pub use vtk_warp_vector::*;

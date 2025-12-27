@@ -5,6 +5,7 @@
 
 #include <vtkUnstructuredGrid.h>
 #include <vtkPoints.h>
+#include <vtkPointData.h>
 
 // Create/Delete
 vtkUnstructuredGrid* vtk_unstructured_grid_new();
@@ -29,5 +30,16 @@ void unstructured_grid_insert_next_cell(
 int unstructured_grid_get_number_of_points(const vtkUnstructuredGrid& grid);
 int unstructured_grid_get_number_of_cells(const vtkUnstructuredGrid& grid);
 void unstructured_grid_get_bounds(const vtkUnstructuredGrid& grid, double* bounds);
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// Point data access (extern "C" for Rust FFI)
+vtkPointData* unstructured_grid_get_point_data(void* grid_ptr);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // VTK_UNSTRUCTURED_GRID_H

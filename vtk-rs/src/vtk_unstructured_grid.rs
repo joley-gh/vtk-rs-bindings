@@ -1,5 +1,13 @@
 use std::pin::Pin;
 
+// Direct extern "C" for get_point_data to avoid cxx bridge issues with opaque types
+#[link(name = "vtkrs", kind = "static")]
+extern "C" {
+    fn unstructured_grid_get_point_data(
+        grid: *mut std::ffi::c_void
+    ) -> *mut crate::vtk_point_data::vtkPointData;
+}
+
 #[cxx::bridge]
 mod ffi {
     unsafe extern "C++" {
@@ -126,5 +134,14 @@ impl UnstructuredGrid {
     /// Get raw pointer for VTK pipeline connections
     pub fn as_raw_ptr(&mut self) -> *mut ffi::vtkUnstructuredGrid {
         unsafe { Pin::get_unchecked_mut(self.ptr.as_mut()) as *mut _ }
+    }
+
+    /// Get point data for adding scalar/vector fields
+    #[doc(alias = "GetPointData")]
+    pub fn get_point_data(&mut self) -> crate::PointData {
+        unsafe {
+            let ptr = unstructured_grid_get_point_data(self.as_raw_ptr() as *mut std::ffi::c_void);
+            crate::PointData::from_raw(ptr)
+        }
     }
 }

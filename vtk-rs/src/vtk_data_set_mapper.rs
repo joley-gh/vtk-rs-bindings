@@ -5,14 +5,20 @@ mod ffi {
     unsafe extern "C++" {
         include!("vtk_data_set_mapper.h");
         include!("vtk_mapper.h");
+        include!("vtk_algorithm_output.h");
 
         type vtkDataSetMapper;
         type vtkMapper;
         type vtkDataSet;
+        type vtkAlgorithmOutput;
 
         fn vtk_data_set_mapper_new() -> *mut vtkDataSetMapper;
         fn vtk_data_set_mapper_delete(mapper: Pin<&mut vtkDataSetMapper>);
 
+        unsafe fn data_set_mapper_set_input_connection(
+            mapper: Pin<&mut vtkDataSetMapper>,
+            output: *mut vtkAlgorithmOutput
+        );
         unsafe fn data_set_mapper_set_input_data(
             mapper: Pin<&mut vtkDataSetMapper>,
             data_set: *mut vtkDataSet
@@ -29,6 +35,16 @@ crate::define_object!(
 );
 
 impl DataSetMapper {
+    /// Sets the input from an algorithm output port
+    #[doc(alias = "SetInputConnection")]
+    pub fn set_input_connection(&mut self, output: impl Into<*mut std::ffi::c_void>) {
+        unsafe {
+            let ptr = output.into();
+            let algo_output = ptr as *mut ffi::vtkAlgorithmOutput;
+            ffi::data_set_mapper_set_input_connection(self.ptr.as_mut(), algo_output);
+        }
+    }
+
     /// Sets the input data from any VTK dataset (PolyData, UnstructuredGrid, ImageData, etc.)
     #[doc(alias = "SetInputData")]
     pub fn set_input_data(&mut self, data_set: &mut crate::UnstructuredGrid) {

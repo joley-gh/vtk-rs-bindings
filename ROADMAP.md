@@ -346,7 +346,7 @@ All text rendering and annotation features implemented:
 
 ---
 
-## Priority 5: Data Structures & Filters 🎯 CURRENT FOCUS
+## Priority 5: Data Structures & Filters ✅ COMPLETE
 
 Advanced data handling for volumetric and unstructured data.
 
@@ -395,6 +395,54 @@ Advanced data handling for volumetric and unstructured data.
 - [x] Cut meshes with planes for cross-sections
 - [x] Plane class for implicit functions
 - [x] Demo: `clip_poly_data_demo.rs` - sphere clipped by tilted plane
+
+### P5.5 Warp Vector - `vtk_warp_vector.rs` ✅ COMPLETE
+- [x] Create new module and C++ bindings
+- [x] `new()` / `delete()`
+- [x] `set_input_connection(port)` / `set_input_data(dataset)`
+- [x] `set_scale_factor(scale)` - amplify/reduce displacement magnitude
+- [x] `get_scale_factor()`
+- [x] `get_output_port()`
+- [x] Deform geometry by vector field (displacement visualization for FEM)
+- [x] Essential for animating/visualizing structural deformations
+- [x] Demo: `warp_vector_demo.rs` - Cantilever beam with 10x3x3 hexahedral mesh, parabolic deflection pattern
+- [x] **Infrastructure**: Added UnstructuredGrid.get_point_data() and DataSetMapper.set_input_connection()
+- [x] **Build System**: Added vtkFiltersGeneral module to CMake and linker configuration
+- [x] **FFI Pattern**: cxx bridge requires .rs.h header inclusion and reference signatures (&) not pointers (*)
+
+### P5.6 Smooth PolyData Filter - `vtk_smooth_poly_data_filter.rs`
+- [ ] Create new module and C++ bindings
+- [ ] `new()` / `delete()`
+- [ ] `set_input_connection(port)`
+- [ ] `set_number_of_iterations(n)` / `get_number_of_iterations()`
+- [ ] `set_relaxation_factor(f)` / `get_relaxation_factor()`
+- [ ] `set_feature_edge_smoothing(bool)` - preserve sharp edges
+- [ ] `set_boundary_smoothing(bool)` - smooth boundary vertices
+- [ ] `get_output_port()`
+- [ ] Laplacian mesh smoothing
+- [ ] Demo: Smooth noisy surface
+
+### P5.7 Threshold Filter - `vtk_threshold.rs`
+- [ ] Create new module and C++ bindings
+- [ ] `new()` / `delete()`
+- [ ] `set_input_connection(port)` / `set_input_data(dataset)`
+- [ ] `set_lower_threshold(value)` / `set_upper_threshold(value)`
+- [ ] `set_threshold_between(lower, upper)`
+- [ ] `set_component_mode(mode)` / `set_selected_component(comp)`
+- [ ] `get_output_port()`
+- [ ] Extract cells where scalar values fall in range
+- [ ] Essential for visualizing stress/strain regions in FEM
+- [ ] Demo: Extract high-stress regions from dataset
+
+### P5.8 Shrink Filter - `vtk_shrink_filter.rs`
+- [ ] Create new module and C++ bindings
+- [ ] `new()` / `delete()`
+- [ ] `set_input_connection(port)`
+- [ ] `set_shrink_factor(f)` / `get_shrink_factor()` - [0,1] scale toward centroid
+- [ ] `get_output_port()`
+- [ ] Shrink cells toward their centroid
+- [ ] Visualize individual cells in mesh (exploded view)
+- [ ] Demo: Exploded view of UnstructuredGrid
 
 ---
 

@@ -41,7 +41,7 @@ impl Plane {
                 self.ptr.as_ref().get_ref(),
                 &mut origin[0],
                 &mut origin[1],
-                &mut origin[2],
+                &mut origin[2]
             );
         }
         origin
@@ -62,7 +62,7 @@ impl Plane {
                 self.ptr.as_ref().get_ref(),
                 &mut normal[0],
                 &mut normal[1],
-                &mut normal[2],
+                &mut normal[2]
             );
         }
         normal

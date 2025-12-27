@@ -10,22 +10,22 @@ fn main() {
     sphere.set_radius(5.0);
     sphere.set_theta_resolution(30);
     sphere.set_phi_resolution(30);
-    
+
     println!("Created sphere: center=(0,0,0), radius=5.0");
 
     // Create a clipping plane
     let mut plane = vtk::Plane::new();
-    plane.set_origin(0.0, 0.0, 0.0);  // Plane passes through origin
-    plane.set_normal(1.0, 0.5, 0.2);  // Tilted plane
-    
+    plane.set_origin(0.0, 0.0, 0.0); // Plane passes through origin
+    plane.set_normal(1.0, 0.5, 0.2); // Tilted plane
+
     println!("Created clipping plane: origin=(0,0,0), normal=(1.0, 0.5, 0.2)");
-    
+
     // Create clipper
     let mut clipper = vtk::ClipPolyData::new();
     clipper.set_input_connection(sphere.get_output_port());
     clipper.set_clip_function(&mut plane);
-    clipper.set_value(0.0);  // Clip at the plane (distance = 0)
-    
+    clipper.set_value(0.0); // Clip at the plane (distance = 0)
+
     println!("Clipping sphere with plane\n");
 
     // Create mapper for clipped geometry

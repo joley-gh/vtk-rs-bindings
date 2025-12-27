@@ -195,7 +195,7 @@ impl ImageData {
         }
         bounds
     }
-    
+
     /// Get raw pointer for VTK pipeline connections
     pub fn as_raw_ptr(&mut self) -> *mut ffi::vtkImageData {
         unsafe { Pin::get_unchecked_mut(self.ptr.as_mut()) as *mut _ }
