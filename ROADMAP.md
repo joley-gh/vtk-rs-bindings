@@ -410,29 +410,29 @@ Advanced data handling for volumetric and unstructured data.
 - [x] **Build System**: Added vtkFiltersGeneral module to CMake and linker configuration
 - [x] **FFI Pattern**: cxx bridge requires .rs.h header inclusion and reference signatures (&) not pointers (*)
 
-### P5.6 Smooth PolyData Filter - `vtk_smooth_poly_data_filter.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_input_connection(port)`
-- [ ] `set_number_of_iterations(n)` / `get_number_of_iterations()`
-- [ ] `set_relaxation_factor(f)` / `get_relaxation_factor()`
-- [ ] `set_feature_edge_smoothing(bool)` - preserve sharp edges
-- [ ] `set_boundary_smoothing(bool)` - smooth boundary vertices
-- [ ] `get_output_port()`
-- [ ] Laplacian mesh smoothing
-- [ ] Demo: Smooth noisy surface
+### P5.6 Smooth PolyData Filter - `vtk_smooth_poly_data_filter.rs` ✅ COMPLETE
+- [x] Create new module and C++ bindings
+- [x] `new()` / `delete()`
+- [x] `set_input_connection(port)`
+- [x] `set_number_of_iterations(n)` / `get_number_of_iterations()`
+- [x] `set_relaxation_factor(f)` / `get_relaxation_factor()`
+- [x] `set_feature_edge_smoothing(bool)` - preserve sharp edges
+- [x] `set_boundary_smoothing(bool)` - smooth boundary vertices
+- [x] `get_output_port()`
+- [x] Laplacian mesh smoothing
+- [x] Demo: `smooth_poly_data_demo.rs` - demonstrates original vs smoothed surface
 
-### P5.7 Threshold Filter - `vtk_threshold.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_input_connection(port)` / `set_input_data(dataset)`
-- [ ] `set_lower_threshold(value)` / `set_upper_threshold(value)`
-- [ ] `set_threshold_between(lower, upper)`
-- [ ] `set_component_mode(mode)` / `set_selected_component(comp)`
-- [ ] `get_output_port()`
-- [ ] Extract cells where scalar values fall in range
-- [ ] Essential for visualizing stress/strain regions in FEM
-- [ ] Demo: Extract high-stress regions from dataset
+### P5.7 Threshold Filter - `vtk_threshold.rs` ✅ COMPLETE
+- [x] Create new module and C++ bindings
+- [x] `new()` / `delete()`
+- [x] `set_input_connection(port)` / `set_input_data(dataset)`
+- [x] `set_lower_threshold(value)` / `set_upper_threshold(value)`
+- [x] `set_threshold_between(lower, upper)`
+- [x] `set_component_mode(mode)` / `set_selected_component(comp)`
+- [x] `get_output_port()`
+- [x] Extract cells where scalar values fall in range
+- [x] Essential for visualizing stress/strain regions in FEM
+- [x] Demo: `threshold_demo.rs` - simplified example demonstrating threshold + contour extraction
 
 ### P5.8 Shrink Filter - `vtk_shrink_filter.rs`
 - [ ] Create new module and C++ bindings
