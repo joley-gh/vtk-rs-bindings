@@ -1,5 +1,5 @@
 #[cxx::bridge]
-mod ffi {
+pub mod ffi {
     unsafe extern "C++" {
         include!("vtk_actor.h");
         include!("vtk_mapper.h");

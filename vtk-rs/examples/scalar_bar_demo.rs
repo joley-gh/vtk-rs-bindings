@@ -155,7 +155,7 @@ fn main() {
     label_prop.set_font_size(14);
     label_prop.set_color(0.9, 0.9, 0.9); // Light gray
 
-    renderer.add_actor2d(&mut scalar_bar);
+    renderer.add_scalar_bar(&mut scalar_bar);
 
     println!("Scalar bar configuration:");
     println!("  Position: Right side (88% from left, 10% from bottom)");

@@ -75,6 +75,7 @@ mod vtk_vector_text;
 mod vtk_text_actor;
 mod vtk_lookup_table;
 mod vtk_scalar_bar_actor;
+mod vtk_legend_box_actor;
 
 // VTK Initialization
 // This function must be called before using any VTK objects
@@ -164,3 +165,4 @@ pub use vtk_vector_text::*;
 pub use vtk_text_actor::*;
 pub use vtk_lookup_table::*;
 pub use vtk_scalar_bar_actor::*;
+pub use vtk_legend_box_actor::*;

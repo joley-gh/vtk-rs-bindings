@@ -73,8 +73,16 @@ impl Renderer {
         ffi::renderer_add_actor(self.ptr.as_mut(), actor_ptr);
     }
 
-    /// Add a 2D actor (like ScalarBarActor or TextActor) to the renderer
-    pub fn add_actor2d(&mut self, actor: &mut crate::ScalarBarActor) {
+    /// Add a 2D actor (like ScalarBarActor or LegendBoxActor) to the renderer
+    pub fn add_scalar_bar(&mut self, actor: &mut crate::ScalarBarActor) {
+        unsafe {
+            let actor_ptr = actor.as_raw_ptr() as *mut ffi::vtkActor2D;
+            ffi::renderer_add_actor2d(self.ptr.as_mut(), actor_ptr);
+        }
+    }
+
+    /// Add a legend box actor to the renderer
+    pub fn add_legend_box(&mut self, actor: &mut crate::LegendBoxActor) {
         unsafe {
             let actor_ptr = actor.as_raw_ptr() as *mut ffi::vtkActor2D;
             ffi::renderer_add_actor2d(self.ptr.as_mut(), actor_ptr);
