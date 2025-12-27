@@ -12,8 +12,13 @@ mod ffi {
         fn vtk_unstructured_grid_new() -> *mut vtkUnstructuredGrid;
         fn vtk_unstructured_grid_delete(grid: Pin<&mut vtkUnstructuredGrid>);
 
-        unsafe fn unstructured_grid_set_points(grid: Pin<&mut vtkUnstructuredGrid>, points: *mut vtkPoints);
-        unsafe fn unstructured_grid_get_points(grid: Pin<&mut vtkUnstructuredGrid>) -> *mut vtkPoints;
+        unsafe fn unstructured_grid_set_points(
+            grid: Pin<&mut vtkUnstructuredGrid>,
+            points: *mut vtkPoints
+        );
+        unsafe fn unstructured_grid_get_points(
+            grid: Pin<&mut vtkUnstructuredGrid>
+        ) -> *mut vtkPoints;
 
         fn unstructured_grid_allocate(grid: Pin<&mut vtkUnstructuredGrid>, num_cells: i32);
 
@@ -51,7 +56,7 @@ pub enum VtkCellType {
     Pyramid = 14,
     PentagonalPrism = 15,
     HexagonalPrism = 16,
-    
+
     // Quadratic cells
     QuadraticEdge = 21,
     QuadraticTriangle = 22,

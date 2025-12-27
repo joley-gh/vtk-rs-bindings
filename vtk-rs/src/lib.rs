@@ -79,6 +79,7 @@ mod vtk_legend_box_actor;
 mod vtk_image_data;
 mod vtk_unstructured_grid;
 mod vtk_data_set_mapper;
+mod vtk_contour_filter;
 
 // VTK Initialization
 // This function must be called before using any VTK objects
@@ -172,3 +173,4 @@ pub use vtk_legend_box_actor::*;
 pub use vtk_image_data::*;
 pub use vtk_unstructured_grid::*;
 pub use vtk_data_set_mapper::*;
+pub use vtk_contour_filter::*;

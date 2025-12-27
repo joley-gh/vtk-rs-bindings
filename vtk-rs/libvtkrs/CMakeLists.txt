@@ -92,6 +92,7 @@ add_library(vtkrs STATIC
    ${PROJECT_SOURCE_DIR}/include/vtk_image_data.h
    ${PROJECT_SOURCE_DIR}/include/vtk_unstructured_grid.h
    ${PROJECT_SOURCE_DIR}/include/vtk_data_set_mapper.h
+   ${PROJECT_SOURCE_DIR}/include/vtk_contour_filter.h
 )
 
 if (VTK094)
@@ -169,6 +170,7 @@ target_sources(vtkrs
         ${PROJECT_SOURCE_DIR}/src/vtk_image_data.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_unstructured_grid.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_data_set_mapper.cpp
+        ${PROJECT_SOURCE_DIR}/src/vtk_contour_filter.cpp
 )
 set_target_properties(vtkrs PROPERTIES LINKER_LANGUAGE CXX)
 

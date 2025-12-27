@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vtkImageData.h>
+#include <vtkAlgorithmOutput.h>
 
 // Create/Delete
 vtkImageData* vtk_image_data_new();
@@ -45,3 +46,6 @@ int image_data_get_number_of_cells(const vtkImageData& image_data);
 
 // Bounds  
 void image_data_get_bounds(const vtkImageData& image_data, double bounds[6]);
+
+// Algorithm output port
+vtkAlgorithmOutput* image_data_get_output_port(vtkImageData& image_data);

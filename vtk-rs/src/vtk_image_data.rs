@@ -1,9 +1,13 @@
+use std::pin::Pin;
+
 #[cxx::bridge]
 mod ffi {
     unsafe extern "C++" {
         include!("vtk_image_data.h");
+        include!("vtk_algorithm_output.h");
 
         type vtkImageData;
+        type vtkAlgorithmOutput;
 
         fn vtk_image_data_new() -> *mut vtkImageData;
         fn vtk_image_data_delete(image_data: Pin<&mut vtkImageData>);
@@ -190,5 +194,10 @@ impl ImageData {
             ffi::image_data_get_bounds(self.ptr.as_ref().get_ref(), bounds.as_mut_ptr());
         }
         bounds
+    }
+    
+    /// Get raw pointer for VTK pipeline connections
+    pub fn as_raw_ptr(&mut self) -> *mut ffi::vtkImageData {
+        unsafe { Pin::get_unchecked_mut(self.ptr.as_mut()) as *mut _ }
     }
 }

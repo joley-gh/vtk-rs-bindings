@@ -364,22 +364,26 @@ Advanced data handling for volumetric and unstructured data.
 - [x] Example: `image_data_demo.rs` - creates 10×10×10 grid with distance field
 - **Note**: Visual rendering requires volume mapper or contour filter (P5.3+)
 
-### P5.2 Unstructured Grid - `vtk_unstructured_grid.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_points(points)`
-- [ ] `allocate(ncells)`
-- [ ] `insert_next_cell(type, point_ids)`
-- [ ] FEM meshes, arbitrary topology
+### P5.2 Unstructured Grid - `vtk_unstructured_grid.rs` ✅ COMPLETE
+- [x] Create new module and C++ bindings
+- [x] `new()` / `delete()`
+- [x] `set_points(points)`
+- [x] `allocate(ncells)`
+- [x] `insert_next_cell(type, point_ids)`
+- [x] FEM meshes, arbitrary topology
+- [x] DataSetMapper for visualization
+- [x] Demo: `unstructured_grid_demo.rs` + `unstructured_grid_visual.rs`
 
-### P5.3 Contour Filter - `vtk_contour_filter.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_input_connection(port)`
-- [ ] `set_value(i, value)` - isosurface value
-- [ ] `generate_values(n, range_min, range_max)`
-- [ ] `get_output_port()`
-- [ ] Extract surfaces at constant values
+### P5.3 Contour Filter - `vtk_contour_filter.rs` ✅ COMPLETE
+- [x] Create new module and C++ bindings
+- [x] `new()` / `delete()`
+- [x] `set_input_connection(port)`
+- [x] `set_input_data(data_set)` - direct data input
+- [x] `set_value(i, value)` - isosurface value
+- [x] `generate_values(n, range_min, range_max)`
+- [x] `get_output_port()`
+- [x] Extract surfaces at constant values
+- [x] Demo: `contour_filter_demo.rs` - 3 nested spherical isosurfaces
 
 ### P5.4 Clip Poly Data - `vtk_clip_poly_data.rs`
 - [ ] Create new module and C++ bindings

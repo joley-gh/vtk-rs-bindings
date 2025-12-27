@@ -101,3 +101,12 @@ void image_data_get_bounds(const vtkImageData& image_data, double bounds[6]) {
     // VTK GetBounds() is not const
     const_cast<vtkImageData&>(image_data).GetBounds(bounds);
 }
+
+vtkAlgorithmOutput* image_data_get_output_port(vtkImageData& image_data) {
+    // ImageData is a data object, not an algorithm, so we need to use TrivialProducer
+    // However, for simplicity in filters, we can create a producer on-the-fly
+    // Actually, VTK filters that take SetInputData() don't need GetOutputPort()
+    // But for consistency with algorithm sources, we return nullptr
+    // The contour filter should use SetInputData instead
+    return nullptr;  // ImageData doesn't have output ports - it's a data object
+}

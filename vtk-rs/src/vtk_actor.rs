@@ -54,7 +54,7 @@ impl Actor {
             unsafe { ffi::actor_set_mapper(self.ptr.as_mut(), mapper_ptr) }
         }
     }
-    
+
     /// Set the mapper for this actor (DataSetMapper variant)
     pub fn set_data_set_mapper(&mut self, mapper: &mut crate::DataSetMapper) {
         unsafe {
