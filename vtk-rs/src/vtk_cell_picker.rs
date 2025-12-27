@@ -83,6 +83,12 @@ impl CellPicker {
         (x, y, z)
     }
 
+    /// Get the actor that was picked. Returns null pointer if no actor was picked.
+    /// Use is_null() to check if a valid actor was returned.
+    pub fn get_actor(&mut self) -> *mut ffi::vtkActor {
+        ffi::cell_picker_get_actor(self.ptr.as_mut())
+    }
+
     /// Add a prop3D (like an actor) to the pick list.
     ///
     /// # Safety

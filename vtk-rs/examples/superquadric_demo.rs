@@ -19,7 +19,7 @@ fn main() {
         source.set_size(0.8);
 
         let mut mapper = PolyDataMapper::new();
-        mapper.set_input_connection(source.output_port());
+        mapper.set_input_connection(source.get_output_port());
 
         let mut actor = Actor::new();
         actor.set_mapper(&mut mapper);
@@ -44,7 +44,7 @@ fn main() {
         source.set_size(0.8);
 
         let mut mapper = PolyDataMapper::new();
-        mapper.set_input_connection(source.output_port());
+        mapper.set_input_connection(source.get_output_port());
 
         let mut actor = Actor::new();
         actor.set_mapper(&mut mapper);
@@ -69,7 +69,7 @@ fn main() {
         source.set_size(0.8);
 
         let mut mapper = PolyDataMapper::new();
-        mapper.set_input_connection(source.output_port());
+        mapper.set_input_connection(source.get_output_port());
 
         let mut actor = Actor::new();
         actor.set_mapper(&mut mapper);
@@ -97,7 +97,7 @@ fn main() {
         source.set_size(0.8);
 
         let mut mapper = PolyDataMapper::new();
-        mapper.set_input_connection(source.output_port());
+        mapper.set_input_connection(source.get_output_port());
 
         let mut actor = Actor::new();
         actor.set_mapper(&mut mapper);

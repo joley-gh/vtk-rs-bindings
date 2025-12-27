@@ -411,14 +411,15 @@ Advanced data handling for volumetric and unstructured data.
 - [x] `set_ambient(value)` / `set_diffuse(value)` / `set_specular(value)`
 - [x] `set_specular_power(value)`
 
-### 1.3 Actor Enhancements - `vtk_actor.rs` ✓ COMPLETED
+### 1.3 Actor Enhancements - `vtk_actor.rs` ✅ COMPLETE
 - [x] `get_property()` → PropertyRef (non-owning reference)
 - [x] PropertyRef with all essential property methods
-- [ ] `set_position(x, y, z)` / `get_position()` - DEFERRED
-- [ ] `set_scale(x, y, z)` / `set_scale_uniform(s)` - DEFERRED
-- [ ] `set_orientation(x, y, z)` / `rotate_xyz(x, y, z)` - DEFERRED
-- [ ] `set_visibility(bool)` / `get_visibility()` - DEFERRED
-- [ ] `set_pickable(bool)` / `get_pickable()` - DEFERRED
+- [x] `set_position(x, y, z)` / `get_position()` / `add_position(x, y, z)` ✓ IMPLEMENTED
+- [x] `set_scale(x, y, z)` / `get_scale()` ✓ IMPLEMENTED
+- [x] `set_orientation(x, y, z)` / `get_orientation()` / `rotate_x/y/z(angle)` ✓ IMPLEMENTED
+- [x] `set_visibility(bool)` / `get_visibility()` ✓ IMPLEMENTED
+- [x] `set_pickable(bool)` / `get_pickable()` ✓ IMPLEMENTED
+- [x] Example: `actor_visibility_demo.rs` - interactive picking with visibility/pickability control
 
 ### 1.4 Example Update ✓ COMPLETED
 - [x] Created `examples/property_demo.rs` with animated demonstrations
@@ -430,7 +431,14 @@ Advanced data handling for volumetric and unstructured data.
 - ✅ Full camera control with 12 methods
 - ✅ Complete property system with visual appearance control
 - ✅ Actor property access via get_property()
-- ✅ Two animated examples: camera_control and property_demo
+- ✅ Actor visibility and pickability control
+- ✅ Three animated examples: camera_control, property_demo, actor_visibility_demo
+
+**API Consistency Improvement:**
+- ✅ Removed default `get_output_port(&self, idx: i64)` from Algorithm trait to avoid method resolution conflicts
+- ✅ Standardized all algorithm sources to use explicit `get_output_port(&mut self) -> AlgorithmOutputPort` implementation
+- ✅ Renamed `output_port()` → `get_output_port()` in SuperquadricSource, ParametricFunctionSource, TextSource for consistency
+- ✅ All examples updated to use unified API
 
 ---
 

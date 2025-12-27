@@ -236,7 +236,7 @@ impl SuperquadricSource {
 
     /// Get the output port for connecting to a mapper
     #[doc(alias = "GetOutputPort")]
-    pub fn output_port(&mut self) -> crate::AlgorithmOutputPort {
+    pub fn get_output_port(&mut self) -> crate::AlgorithmOutputPort {
         unsafe {
             let ptr = ffi::superquadric_source_get_output_port(self.ptr.as_mut());
             crate::AlgorithmOutputPort::from_raw(ptr as *mut std::ffi::c_void)

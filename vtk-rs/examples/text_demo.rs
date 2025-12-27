@@ -32,7 +32,7 @@ fn main() {
     text1.set_backing(false);
 
     let mut mapper1 = vtk::PolyDataMapper::new();
-    mapper1.set_input_connection(text1.output_port());
+    mapper1.set_input_connection(text1.get_output_port());
 
     let mut actor1 = vtk::Actor::new();
     actor1.set_mapper(&mut mapper1);
@@ -47,7 +47,7 @@ fn main() {
     text2.set_backing(false);
 
     let mut mapper2 = vtk::PolyDataMapper::new();
-    mapper2.set_input_connection(text2.output_port());
+    mapper2.set_input_connection(text2.get_output_port());
 
     let mut actor2 = vtk::Actor::new();
     actor2.set_mapper(&mut mapper2);
@@ -62,7 +62,7 @@ fn main() {
     text3.set_backing(false);
 
     let mut mapper3 = vtk::PolyDataMapper::new();
-    mapper3.set_input_connection(text3.output_port());
+    mapper3.set_input_connection(text3.get_output_port());
 
     let mut actor3 = vtk::Actor::new();
     actor3.set_mapper(&mut mapper3);
@@ -80,7 +80,7 @@ fn main() {
     text4.set_backing(true);
 
     let mut mapper4 = vtk::PolyDataMapper::new();
-    mapper4.set_input_connection(text4.output_port());
+    mapper4.set_input_connection(text4.get_output_port());
 
     let mut actor4 = vtk::Actor::new();
     actor4.set_mapper(&mut mapper4);
@@ -95,7 +95,7 @@ fn main() {
     text5.set_backing(true);
 
     let mut mapper5 = vtk::PolyDataMapper::new();
-    mapper5.set_input_connection(text5.output_port());
+    mapper5.set_input_connection(text5.get_output_port());
 
     let mut actor5 = vtk::Actor::new();
     actor5.set_mapper(&mut mapper5);
@@ -110,7 +110,7 @@ fn main() {
     text6.set_backing(true);
 
     let mut mapper6 = vtk::PolyDataMapper::new();
-    mapper6.set_input_connection(text6.output_port());
+    mapper6.set_input_connection(text6.get_output_port());
 
     let mut actor6 = vtk::Actor::new();
     actor6.set_mapper(&mut mapper6);

@@ -54,7 +54,7 @@ impl TextSource {
         ffi::text_source_get_backing(self.as_mut())
     }
 
-    pub fn output_port(&mut self) -> AlgorithmOutputPort {
+    pub fn get_output_port(&mut self) -> AlgorithmOutputPort {
         let ptr = ffi::text_source_get_output_port(self.as_mut());
         unsafe { crate::AlgorithmOutputPort::from_raw(ptr as *mut std::ffi::c_void) }
     }

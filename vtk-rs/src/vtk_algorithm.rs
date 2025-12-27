@@ -17,108 +17,107 @@ pub(crate) mod ffi {
         fn vtk_algorithm_get_executive(algorithm: &vtkAlgorithm) -> &vtkExecutive;
         fn vtk_algorithm_set_executive(
             algorithm: Pin<&mut vtkAlgorithm>,
-            executive: Pin<&mut vtkExecutive>,
+            executive: Pin<&mut vtkExecutive>
         );
         unsafe fn vtk_algorithm_process_request(
             algorithm: &vtkAlgorithm,
             request: &vtkInformation,
             in_info: &mut [*mut vtkInformationVector],
-            out_info: Pin<&mut vtkInformationVector>,
+            out_info: Pin<&mut vtkInformationVector>
         ) -> bool;
         fn vtk_algorithm_modify_request(
             algorithm: &vtkAlgorithm,
             request: Pin<&mut vtkInformation>,
-            when: i64,
+            when: i64
         ) -> i64;
         fn vtk_algorithm_get_input_port_information(
             algorithm: &vtkAlgorithm,
-            port: i64,
+            port: i64
         ) -> &vtkInformation;
         fn vtk_algorithm_get_output_port_information(
             algorithm: &vtkAlgorithm,
-            port: i64,
+            port: i64
         ) -> &vtkInformation;
         fn vtk_algorithm_get_number_of_input_ports(algorithm: &vtkAlgorithm) -> i64;
         fn vtk_algorithm_get_number_of_output_ports(algorithm: &vtkAlgorithm) -> i64;
         fn vtk_algorithm_set_input_connection(
             algorithm: Pin<&mut vtkAlgorithm>,
             port: i64,
-            input: &vtkAlgorithmOutput,
+            input: &vtkAlgorithmOutput
         );
         fn vtk_algorithm_set_abort_execute_and_update_time(algorithm: Pin<&mut vtkAlgorithm>);
         fn vtk_algorithm_update_progress(algorithm: Pin<&mut vtkAlgorithm>, amount: f64);
         fn vtk_algorithm_check_abort(algorithm: &vtkAlgorithm) -> bool;
         fn vtk_algorithm_get_input_array_information(
             algorithm: &vtkAlgorithm,
-            idx: i64,
+            idx: i64
         ) -> &vtkInformation;
         fn vtk_algorithm_remove_all_inputs(algorithm: Pin<&mut vtkAlgorithm>);
         fn vtk_algorithm_get_output_data_object(
             algorithm: &vtkAlgorithm,
-            port: i64,
+            port: i64
         ) -> &vtkDataObject;
         fn vtk_algorithm_get_input_data_object(
             algorithm: &vtkAlgorithm,
             port: i64,
-            connection: i64,
+            connection: i64
         ) -> &vtkDataObject;
         fn vtk_algorithm_remove_input_connection(
             algorithm: Pin<&mut vtkAlgorithm>,
             port: i64,
-            input: &vtkAlgorithmOutput,
+            input: &vtkAlgorithmOutput
         );
         fn vtk_algorithm_remove_input_connection_by_idx(
             algorithm: Pin<&mut vtkAlgorithm>,
             port: i64,
-            idx: i64,
+            idx: i64
         );
         fn vtk_algorithm_remove_all_input_connections(algorithm: Pin<&mut vtkAlgorithm>, port: i64);
         fn vtk_algorithm_set_input_data_object(
             algorithm: Pin<&mut vtkAlgorithm>,
             port: i64,
-            data: &vtkDataObject,
+            data: &vtkDataObject
         );
         fn vtk_algorithm_add_input_data_object(
             algorithm: Pin<&mut vtkAlgorithm>,
             port: i64,
-            data: &vtkDataObject,
+            data: &vtkDataObject
         );
-        fn vtk_algorithm_get_output_port(algorithm: &vtkAlgorithm, idx: i64)
-            -> &vtkAlgorithmOutput;
+        fn vtk_algorithm_get_output_port(algorithm: &vtkAlgorithm, idx: i64) -> &vtkAlgorithmOutput;
         fn vtk_algorithm_get_number_of_input_connections(
             algorithm: &vtkAlgorithm,
-            port: i64,
+            port: i64
         ) -> i64;
         fn vtk_algorithm_get_total_number_of_input_connections(algorithm: &vtkAlgorithm) -> i64;
         fn vtk_algorithm_get_input_connection(
             algorithm: &vtkAlgorithm,
             port: i64,
-            idx: i64,
+            idx: i64
         ) -> &vtkAlgorithmOutput;
         fn vtk_algorithm_get_input_algorithm<'a>(
             algorithm: &'a vtkAlgorithm,
             port: i64,
             idx: i64,
-            alg_port: &mut i64,
+            alg_port: &mut i64
         ) -> &'a vtkAlgorithm;
         fn vtk_algorithm_get_input_executive(
             algorithm: &vtkAlgorithm,
             port: i64,
-            idx: i64,
+            idx: i64
         ) -> &vtkExecutive;
         fn vtk_algorithm_get_input_information(
             algorithm: &vtkAlgorithm,
             port: i64,
-            idx: i64,
+            idx: i64
         ) -> &vtkInformation;
         fn vtk_algorithm_get_output_information(
             algorithm: &vtkAlgorithm,
-            port: i64,
+            port: i64
         ) -> &vtkInformation;
         fn vtk_algorithm_update(
             algorithm: Pin<&mut vtkAlgorithm>,
             port: i64,
-            requests: &vtkInformationVector,
+            requests: &vtkInformationVector
         ) -> bool;
         // TODO fn vtk_algorithm_update_piece(algorithm: &vtkAlgorithm, piece: i64, num_pieces: int, ghost_levels: i64, extent: Option<[int; 6]>);
         // TODO fn vtk_algorithm_update_time_step(algorithm: &vtkAlgorithm, time: f64, piece: i64 = -1, num_pieces: i64 = -1, ghost_levels: i64 = 0, extents: [i64; 6] = None);
@@ -128,15 +127,15 @@ pub(crate) mod ffi {
         fn vtk_algorithm_update_whole_extent(algorithm: Pin<&mut vtkAlgorithm>);
         fn vtk_algorithm_convert_total_input_to_port_connection(
             algorithm: &vtkAlgorithm,
-            ind: i64,
+            ind: i64
         ) -> [i64; 2];
         fn vtk_algorithm_remove_no_prior_temporal_access_information_key(
-            algorithm: Pin<&mut vtkAlgorithm>,
+            algorithm: Pin<&mut vtkAlgorithm>
         );
         fn vtk_algorithm_get_information(algorithm: &vtkAlgorithm) -> &vtkInformation;
         fn vtk_algorithm_set_information(
             algorithm: Pin<&mut vtkAlgorithm>,
-            information: &vtkInformation,
+            information: &vtkInformation
         );
         fn vtk_algorithm_get_abort_execute(algorithm: &vtkAlgorithm) -> bool;
         fn vtk_algorithm_abort_execute_on(algorithm: Pin<&mut vtkAlgorithm>);
@@ -144,7 +143,7 @@ pub(crate) mod ffi {
         fn vtk_algorithm_get_progress(algorithm: &vtkAlgorithm) -> f64;
         fn vtk_algorithm_set_container_algorithm(
             algorithm: Pin<&mut vtkAlgorithm>,
-            container_algorithm: &vtkAlgorithm,
+            container_algorithm: &vtkAlgorithm
         );
         fn vtk_algorithm_get_container_algorithm(algorithm: &vtkAlgorithm) -> &vtkAlgorithm;
         fn vtk_algorithm_set_abort_output(algorithm: Pin<&mut vtkAlgorithm>, flag: bool);
@@ -152,7 +151,7 @@ pub(crate) mod ffi {
         fn vtk_algorithm_set_progress_shift_scale(
             algorithm: Pin<&mut vtkAlgorithm>,
             shift: f64,
-            scale: f64,
+            scale: f64
         );
         fn vtk_algorithm_get_progress_shift(algorithm: &vtkAlgorithm) -> f64;
         fn vtk_algorithm_get_progress_scale(algorithm: &vtkAlgorithm) -> f64;
@@ -165,12 +164,12 @@ pub(crate) mod ffi {
             port: i64,
             connection: i64,
             field_association: &str,
-            attribute_type_or_name: &str,
+            attribute_type_or_name: &str
         );
         fn vtk_algorithm_add_input_connection(
             algorithm: Pin<&mut vtkAlgorithm>,
             port: i64,
-            input: &vtkAlgorithmOutput,
+            input: &vtkAlgorithmOutput
         );
     }
 }
@@ -200,8 +199,9 @@ pub trait vtkAlgorithm: private::Sealed {
     }
 
     fn get_executive(&self) -> &crate::vtk_executive::Executive {
-        let x = ffi::vtk_algorithm_get_executive(&self.as_vtk_algorithm()) as *const _
-            as *const crate::vtk_executive::Executive;
+        let x = ffi::vtk_algorithm_get_executive(
+            &self.as_vtk_algorithm()
+        ) as *const _ as *const crate::vtk_executive::Executive;
         unsafe { &*x }
     }
 
@@ -219,7 +219,7 @@ pub trait vtkAlgorithm: private::Sealed {
         &self,
         request: &crate::vtk_information::Information,
         in_info: &mut [*mut crate::vtk_information_vector::InformationVector],
-        out_info: core::pin::Pin<&mut crate::vtk_information_vector::InformationVector>,
+        out_info: core::pin::Pin<&mut crate::vtk_information_vector::InformationVector>
     ) -> bool {
         let sself = self.as_vtk_algorithm();
         let request = unsafe { &*(request as *const _ as *const ffi::vtkInformation) };
@@ -245,25 +245,31 @@ pub trait vtkAlgorithm: private::Sealed {
 
     fn get_input_port_information(
         &self,
-        port: i64,
+        port: i64
     ) -> Option<&crate::vtk_information::Information> {
         let sself = self.as_vtk_algorithm();
         unsafe {
-            (ffi::vtk_algorithm_get_input_port_information(&sself, port) as *const _
-                as *const crate::vtk_information::Information)
-                .as_ref()
+            (
+                ffi::vtk_algorithm_get_input_port_information(
+                    &sself,
+                    port
+                ) as *const _ as *const crate::vtk_information::Information
+            ).as_ref()
         }
     }
 
     fn get_output_port_information(
         &self,
-        port: i64,
+        port: i64
     ) -> Option<&crate::vtk_information::Information> {
         let sself = self.as_vtk_algorithm();
         unsafe {
-            (ffi::vtk_algorithm_get_output_port_information(&sself, port) as *const _
-                as *const crate::vtk_information::Information)
-                .as_ref()
+            (
+                ffi::vtk_algorithm_get_output_port_information(
+                    &sself,
+                    port
+                ) as *const _ as *const crate::vtk_information::Information
+            ).as_ref()
         }
     }
 
@@ -299,7 +305,7 @@ pub trait vtkAlgorithm: private::Sealed {
 
     fn vtk_algorithm_get_input_array_information(
         &self,
-        idx: i64,
+        idx: i64
     ) -> Option<&crate::vtk_information::Information> {
         let sself = self.as_vtk_algorithm();
         let info = ffi::vtk_algorithm_get_input_array_information(&sself, idx);
@@ -313,7 +319,7 @@ pub trait vtkAlgorithm: private::Sealed {
 
     fn vtk_algorithm_get_output_data_object(
         &self,
-        port: i64,
+        port: i64
     ) -> Option<&crate::vtk_data_object::DataObject> {
         let sself = self.as_vtk_algorithm();
         let dobject = ffi::vtk_algorithm_get_output_data_object(&sself, port);
@@ -323,7 +329,7 @@ pub trait vtkAlgorithm: private::Sealed {
     fn vtk_algorithm_get_input_data_object(
         &self,
         port: i64,
-        connection: i64,
+        connection: i64
     ) -> Option<&crate::vtk_data_object::DataObject> {
         let sself = self.as_vtk_algorithm();
         let dobject = ffi::vtk_algorithm_get_input_data_object(&sself, port, connection);
@@ -333,7 +339,7 @@ pub trait vtkAlgorithm: private::Sealed {
     fn remove_input_connection(
         &mut self,
         port: i64,
-        input: &impl crate::vtk_algorithm_output::vtkAlgorithmOutput,
+        input: &impl crate::vtk_algorithm_output::vtkAlgorithmOutput
     ) {
         let input = &input.as_vtk_algorithm_output() as *const _ as *const ffi::vtkAlgorithmOutput;
         ffi::vtk_algorithm_remove_input_connection(self.as_vtk_algorithm_mut(), port, unsafe {
@@ -352,7 +358,7 @@ pub trait vtkAlgorithm: private::Sealed {
     fn set_input_data_object(
         &mut self,
         port: i64,
-        data: &impl crate::vtk_data_object::vtkDataObject,
+        data: &impl crate::vtk_data_object::vtkDataObject
     ) {
         let data = &data.as_vtk_data_object() as *const _ as *const ffi::vtkDataObject;
         ffi::vtk_algorithm_set_input_data_object(self.as_vtk_algorithm_mut(), port, unsafe {
@@ -363,7 +369,7 @@ pub trait vtkAlgorithm: private::Sealed {
     fn add_input_data_object(
         &mut self,
         port: i64,
-        data: &impl crate::vtk_data_object::vtkDataObject,
+        data: &impl crate::vtk_data_object::vtkDataObject
     ) {
         let data = &data.as_vtk_data_object() as *const _ as *const ffi::vtkDataObject;
         ffi::vtk_algorithm_add_input_data_object(self.as_vtk_algorithm_mut(), port, unsafe {
@@ -371,11 +377,10 @@ pub trait vtkAlgorithm: private::Sealed {
         });
     }
 
-    fn get_output_port(&self, idx: i64) -> Option<&crate::vtk_algorithm_output::AlgorithmOutput> {
-        let sself = &self.as_vtk_algorithm();
-        let out = ffi::vtk_algorithm_get_output_port(sself, idx);
-        unsafe { (out as *const _ as *const crate::vtk_algorithm_output::AlgorithmOutput).as_ref() }
-    }
+    // NOTE: get_output_port() is NOT provided as a trait default implementation
+    // to avoid method resolution conflicts. Each algorithm type should implement
+    // its own get_output_port() method that returns AlgorithmOutputPort directly.
+    // The trait method was: fn get_output_port(&self, idx: i64) -> Option<&AlgorithmOutput>
 
     fn get_number_of_input_connections(&self, port: i64) -> i64 {
         ffi::vtk_algorithm_get_number_of_input_connections(&self.as_vtk_algorithm(), port)
@@ -388,7 +393,7 @@ pub trait vtkAlgorithm: private::Sealed {
     fn get_input_connection(
         &mut self,
         port: i64,
-        idx: i64,
+        idx: i64
     ) -> Option<&crate::vtk_algorithm_output::AlgorithmOutput> {
         let sself = self.as_vtk_algorithm();
         let out = ffi::vtk_algorithm_get_input_connection(&sself, port, idx);
@@ -411,7 +416,7 @@ pub trait vtkAlgorithm: private::Sealed {
     fn get_input_information(
         &self,
         port: i64,
-        idx: i64,
+        idx: i64
     ) -> Option<&crate::vtk_information::Information> {
         let sself = self.as_vtk_algorithm();
         let info = ffi::vtk_algorithm_get_input_information(&sself, port, idx);
@@ -427,7 +432,7 @@ pub trait vtkAlgorithm: private::Sealed {
     fn update(
         &mut self,
         port: i64,
-        requests: &crate::vtk_information_vector::InformationVector,
+        requests: &crate::vtk_information_vector::InformationVector
     ) -> bool {
         let requests = unsafe { &*(requests as *const _ as *const ffi::vtkInformationVector) };
         ffi::vtk_algorithm_update(self.as_vtk_algorithm_mut(), port, requests)
@@ -451,8 +456,10 @@ pub trait vtkAlgorithm: private::Sealed {
 
     fn convert_total_input_to_port_connection(&self, ind: i64) -> (i64, i64) {
         let sself = self.as_vtk_algorithm();
-        let [port, connection] =
-            ffi::vtk_algorithm_convert_total_input_to_port_connection(&sself, ind);
+        let [port, connection] = ffi::vtk_algorithm_convert_total_input_to_port_connection(
+            &sself,
+            ind
+        );
         (port, connection)
     }
 
@@ -460,7 +467,7 @@ pub trait vtkAlgorithm: private::Sealed {
     #[cfg_attr(docsrs, doc(cfg(feature = "v094")))]
     fn remove_no_prior_temporal_access_information_key(&mut self) {
         ffi::vtk_algorithm_remove_no_prior_temporal_access_information_key(
-            self.as_vtk_algorithm_mut(),
+            self.as_vtk_algorithm_mut()
         )
     }
 
@@ -498,7 +505,7 @@ pub trait vtkAlgorithm: private::Sealed {
         let container_algorithm = container_algorithm.as_vtk_algorithm();
         ffi::vtk_algorithm_set_container_algorithm(
             self.as_vtk_algorithm_mut(),
-            &container_algorithm,
+            &container_algorithm
         )
     }
 
@@ -552,7 +559,7 @@ pub trait vtkAlgorithm: private::Sealed {
         port: i64,
         connection: i64,
         field_association: &str,
-        attribute_type_or_name: &str,
+        attribute_type_or_name: &str
     ) {
         ffi::vtk_algorithm_set_input_array_to_process(
             self.as_vtk_algorithm_mut(),
@@ -560,14 +567,14 @@ pub trait vtkAlgorithm: private::Sealed {
             port,
             connection,
             field_association,
-            attribute_type_or_name,
+            attribute_type_or_name
         )
     }
 
     fn add_input_connection(
         &mut self,
         port: i64,
-        input: &impl crate::vtk_algorithm_output::vtkAlgorithmOutput,
+        input: &impl crate::vtk_algorithm_output::vtkAlgorithmOutput
     ) {
         let input = &input.as_vtk_algorithm_output() as *const _ as *const ffi::vtkAlgorithmOutput;
         ffi::vtk_algorithm_add_input_connection(self.as_vtk_algorithm_mut(), port, unsafe {

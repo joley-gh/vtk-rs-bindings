@@ -76,3 +76,21 @@ void actor_get_scale(const vtkActor& actor, double& x, double& y, double& z) {
     y = scale[1];
     z = scale[2];
 }
+
+// Visibility methods
+void actor_set_visibility(vtkActor& actor, bool visible) {
+    actor.SetVisibility(visible);
+}
+
+bool actor_get_visibility(const vtkActor& actor) {
+    return const_cast<vtkActor&>(actor).GetVisibility() != 0;
+}
+
+// Pickability methods
+void actor_set_pickable(vtkActor& actor, bool pickable) {
+    actor.SetPickable(pickable);
+}
+
+bool actor_get_pickable(const vtkActor& actor) {
+    return const_cast<vtkActor&>(actor).GetPickable() != 0;
+}

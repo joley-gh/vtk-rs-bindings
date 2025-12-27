@@ -83,4 +83,24 @@ void cxxbridge1$192$actor_get_scale(::vtkActor const &actor, double &x, double &
   void (*actor_get_scale$)(::vtkActor const &, double &, double &, double &) = ::actor_get_scale;
   actor_get_scale$(actor, x, y, z);
 }
+
+void cxxbridge1$192$actor_set_visibility(::vtkActor &actor, bool visible) noexcept {
+  void (*actor_set_visibility$)(::vtkActor &, bool) = ::actor_set_visibility;
+  actor_set_visibility$(actor, visible);
+}
+
+bool cxxbridge1$192$actor_get_visibility(::vtkActor const &actor) noexcept {
+  bool (*actor_get_visibility$)(::vtkActor const &) = ::actor_get_visibility;
+  return actor_get_visibility$(actor);
+}
+
+void cxxbridge1$192$actor_set_pickable(::vtkActor &actor, bool pickable) noexcept {
+  void (*actor_set_pickable$)(::vtkActor &, bool) = ::actor_set_pickable;
+  actor_set_pickable$(actor, pickable);
+}
+
+bool cxxbridge1$192$actor_get_pickable(::vtkActor const &actor) noexcept {
+  bool (*actor_get_pickable$)(::vtkActor const &) = ::actor_get_pickable;
+  return actor_get_pickable$(actor);
+}
 } // extern "C"

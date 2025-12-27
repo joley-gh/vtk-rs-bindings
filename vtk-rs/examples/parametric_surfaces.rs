@@ -33,7 +33,7 @@ fn create_parametric_actor(
 
     // Step 4: Create mapper to convert polygons to graphics primitives
     let mut mapper = PolyDataMapper::new();
-    mapper.set_input_connection(source.output_port());
+    mapper.set_input_connection(source.get_output_port());
 
     // Step 5: Create actor with visual properties
     let mut actor = Actor::new();

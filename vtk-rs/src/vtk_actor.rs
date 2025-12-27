@@ -28,6 +28,14 @@ pub mod ffi {
         // Scale methods
         fn actor_set_scale(actor: Pin<&mut vtkActor>, x: f64, y: f64, z: f64);
         fn actor_get_scale(actor: &vtkActor, x: &mut f64, y: &mut f64, z: &mut f64);
+
+        // Visibility methods
+        fn actor_set_visibility(actor: Pin<&mut vtkActor>, visible: bool);
+        fn actor_get_visibility(actor: &vtkActor) -> bool;
+
+        // Pickability methods
+        fn actor_set_pickable(actor: Pin<&mut vtkActor>, pickable: bool);
+        fn actor_get_pickable(actor: &vtkActor) -> bool;
     }
 }
 
@@ -107,6 +115,24 @@ impl Actor {
         let mut z = 0.0;
         ffi::actor_get_scale(&self.ptr.as_ref(), &mut x, &mut y, &mut z);
         (x, y, z)
+    }
+
+    // Visibility methods
+    pub fn set_visibility(&mut self, visible: bool) {
+        ffi::actor_set_visibility(self.ptr.as_mut(), visible);
+    }
+
+    pub fn get_visibility(&self) -> bool {
+        ffi::actor_get_visibility(&self.ptr.as_ref())
+    }
+
+    // Pickability methods
+    pub fn set_pickable(&mut self, pickable: bool) {
+        ffi::actor_set_pickable(self.ptr.as_mut(), pickable);
+    }
+
+    pub fn get_pickable(&self) -> bool {
+        ffi::actor_get_pickable(&self.ptr.as_ref())
     }
 }
 

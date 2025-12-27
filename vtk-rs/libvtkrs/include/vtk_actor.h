@@ -24,3 +24,11 @@ void actor_get_orientation(const vtkActor& actor, double& x, double& y, double& 
 // Scale methods
 void actor_set_scale(vtkActor& actor, double x, double y, double z);
 void actor_get_scale(const vtkActor& actor, double& x, double& y, double& z);
+
+// Visibility methods
+void actor_set_visibility(vtkActor& actor, bool visible);
+bool actor_get_visibility(const vtkActor& actor);
+
+// Pickability methods
+void actor_set_pickable(vtkActor& actor, bool pickable);
+bool actor_get_pickable(const vtkActor& actor);
