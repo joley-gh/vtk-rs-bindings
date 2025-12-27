@@ -83,9 +83,4 @@ void cxxbridge1$192$image_data_get_bounds(::vtkImageData const &image_data, doub
   void (*image_data_get_bounds$)(::vtkImageData const &, double *) = ::image_data_get_bounds;
   image_data_get_bounds$(image_data, bounds);
 }
-
-::vtkAlgorithmOutput *cxxbridge1$192$image_data_get_output_port(::vtkImageData &image_data) noexcept {
-  ::vtkAlgorithmOutput *(*image_data_get_output_port$)(::vtkImageData &) = ::image_data_get_output_port;
-  return image_data_get_output_port$(image_data);
-}
 } // extern "C"

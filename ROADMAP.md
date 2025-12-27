@@ -385,14 +385,16 @@ Advanced data handling for volumetric and unstructured data.
 - [x] Extract surfaces at constant values
 - [x] Demo: `contour_filter_demo.rs` - 3 nested spherical isosurfaces
 
-### P5.4 Clip Poly Data - `vtk_clip_poly_data.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_input_connection(port)`
-- [ ] `set_clip_function(plane)` - implicit function
-- [ ] `set_value(val)` - clip threshold
-- [ ] `get_output_port()`
-- [ ] Cut meshes with planes for cross-sections
+### P5.4 Clip Poly Data - `vtk_clip_poly_data.rs` ✅ COMPLETE
+- [x] Create new module and C++ bindings
+- [x] `new()` / `delete()`
+- [x] `set_input_connection(port)`
+- [x] `set_clip_function(plane)` - implicit function
+- [x] `set_value(val)` - clip threshold
+- [x] `get_output_port()`
+- [x] Cut meshes with planes for cross-sections
+- [x] Plane class for implicit functions
+- [x] Demo: `clip_poly_data_demo.rs` - sphere clipped by tilted plane
 
 ---
 
