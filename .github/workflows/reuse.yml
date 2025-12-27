@@ -34,9 +34,14 @@ jobs:
         if: contains(inputs.os, 'macos')
         run: brew install ${{ inputs.packages }}
 
-      - name: Install VTK Ubuntu
+      - name: Install VTK Ubuntu from Kitware PPA
         if: contains(inputs.os, 'ubuntu')
-        run: sudo apt update && sudo apt install -y ${{ inputs.packages }}
+        run: |
+          # Install VTK 9.3+ from Kitware's official repository
+          wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
+          sudo apt-add-repository "deb https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main"
+          sudo apt update
+          sudo apt install -y libvtk9-dev libvtk9.3
 
       - name: Install toolchain
         uses: dtolnay/rust-toolchain@master
