@@ -316,13 +316,33 @@ Text rendering and visual annotations for labeling and legends.
 - [x] Architecture: C++ glue layer, Rust business logic
 - [x] FFI Pattern: Type aliases for cross-module vtkLookupTable and vtkTextProperty references
 
-### P4.3 Legend Box Actor - `vtk_legend_box_actor.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_number_of_entries(n)`
-- [ ] `set_entry(i, actor, label)`
-- [ ] `set_position(x, y)`
-- [ ] Multi-item legends for scene annotations
+### P4.3 Legend Box Actor - `vtk_legend_box_actor.rs` ✅ COMPLETE
+- [x] Create new module and C++ bindings
+- [x] `new()` / `delete()`
+- [x] `set_number_of_entries(n)`
+- [x] `set_entry(index, label, r, g, b)` - combined string + color setting
+- [x] `set_entry_string(index, label)` / `set_entry_color(index, r, g, b)` - separate controls
+- [x] `set_position(x, y)` / `set_position2(width, height)` - normalized coords [0,1]
+- [x] `set_border(bool)` / `set_box(bool)` / `set_padding(pixels)`
+- [x] Multi-item legends for scene annotations
+- [x] **API Simplifications** (VTK 9.5 compatibility):
+  - [x] Removed SetEntry (requires vtkImageData + 4 args in VTK)
+  - [x] Removed SetEntrySymbol (requires vtkPolyData not vtkActor)
+  - [x] Removed SetScaleFactor (doesn't exist in vtkLegendBoxActor)
+- [x] **Infrastructure**: Public Actor::ffi module for type aliasing
+- [x] **Renderer.add_legend_box()** - Added support for legend box actors
+- [x] Example: `legend_box_demo.rs` - 4 colored spheres with matching legend entries
+- [x] Commit: 992e382
+
+---
+
+## ✅ PRIORITY 4 COMPLETE! 🎉
+
+All text rendering and annotation features implemented:
+- **Text Actor**: Screen-space HUD text with auto-resize and alignment
+- **Scalar Bar Actor**: Color legends for scientific data visualization with lookup tables
+- **Legend Box Actor**: Multi-item legends for scene object annotations
+- **TextProperty System**: Shared font, color, and style configuration across text actors
 
 ---
 
