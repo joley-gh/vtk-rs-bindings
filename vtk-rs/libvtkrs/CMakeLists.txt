@@ -94,6 +94,8 @@ add_library(vtkrs STATIC
    ${PROJECT_SOURCE_DIR}/include/vtk_unstructured_grid.h
    ${PROJECT_SOURCE_DIR}/include/vtk_data_set_mapper.h
    ${PROJECT_SOURCE_DIR}/include/vtk_contour_filter.h
+    ${PROJECT_SOURCE_DIR}/include/vtk_threshold.h
+  ${PROJECT_SOURCE_DIR}/include/vtk_smooth_poly_data_filter.h
    ${PROJECT_SOURCE_DIR}/include/vtk_plane.h
    ${PROJECT_SOURCE_DIR}/include/vtk_clip_poly_data.h
    ${PROJECT_SOURCE_DIR}/include/vtk_warp_vector.h
@@ -176,6 +178,8 @@ target_sources(vtkrs
         ${PROJECT_SOURCE_DIR}/src/vtk_unstructured_grid.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_data_set_mapper.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_contour_filter.cpp
+        ${PROJECT_SOURCE_DIR}/src/vtk_threshold.cpp
+        ${PROJECT_SOURCE_DIR}/src/vtk_smooth_poly_data_filter.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_plane.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_clip_poly_data.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_warp_vector.cpp
