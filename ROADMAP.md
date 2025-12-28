@@ -435,14 +435,14 @@ Advanced data handling for volumetric and unstructured data.
 - [x] Demo: `threshold_demo.rs` - simplified example demonstrating threshold + contour extraction
 
 ### P5.8 Shrink Filter - `vtk_shrink_filter.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_input_connection(port)`
-- [ ] `set_shrink_factor(f)` / `get_shrink_factor()` - [0,1] scale toward centroid
-- [ ] `get_output_port()`
-- [ ] Shrink cells toward their centroid
-- [ ] Visualize individual cells in mesh (exploded view)
-- [ ] Demo: Exploded view of UnstructuredGrid
+- [x] Create new module and C++ bindings
+- [x] `new()` / `delete()`
+- [x] `set_input_connection(port)`
+- [x] `set_shrink_factor(f)` / `get_shrink_factor()` - [0,1] scale toward centroid
+- [x] `get_output_port()`
+- [x] Shrink cells toward their centroid
+- [x] Visualize individual cells in mesh (exploded view)
+- [x] Demo: Exploded view of UnstructuredGrid
 
 ---
 

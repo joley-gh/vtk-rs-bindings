@@ -60,5 +60,5 @@ fn main() {
     println!("Rendering contour extracted from thresholded volume (blue). Use mouse to rotate.");
 
     window.render();
-        interactor.start();
+    interactor.start();
 }
