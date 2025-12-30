@@ -55,6 +55,15 @@ impl RenderWindowInteractor {
         }
     }
 
+    /// Sets the interactor style for image interaction (pan, zoom).
+    /// For image-specific interactions, use InteractorStyleImage.
+    pub fn set_interactor_style_image(&mut self, style: &mut crate::InteractorStyleImage) {
+        unsafe {
+            let style_ptr = style.as_mut_ptr() as *mut ffi::vtkInteractorStyle;
+            ffi::render_window_interactor_set_interactor_style(self.ptr.as_mut(), style_ptr);
+        }
+    }
+
     pub fn initialize(&mut self) {
         ffi::render_window_interactor_initialize(self.ptr.as_mut());
     }

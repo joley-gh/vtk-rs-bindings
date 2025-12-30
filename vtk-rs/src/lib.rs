@@ -87,6 +87,8 @@ mod vtk_plane;
 mod vtk_clip_poly_data;
 mod vtk_warp_vector;
 
+mod vtk_interactor_style_image;
+
 // VTK Initialization
 // This function must be called before using any VTK objects
 extern "C" {
@@ -186,3 +188,4 @@ pub use vtk_threshold::*;
 pub use vtk_plane::*;
 pub use vtk_clip_poly_data::*;
 pub use vtk_warp_vector::*;
+pub use vtk_interactor_style_image::*;

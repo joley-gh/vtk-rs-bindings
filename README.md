@@ -35,9 +35,9 @@ GitHub Actions CI runs on push and pull requests:
 
 | Platform | Status | Environment |
 |---|---|---|
-| `macos-latest` | [![stable-macos-latest](https://img.shields.io/github/actions/workflow/status/joley-gh/vtk-rs/test_stable_macos-latest.yml?style=flat-square&label=CI)](https://github.com/joley-gh/vtk-rs/actions/workflows/test_stable_macos-latest.yml) | Homebrew VTK |
-| `macos-14` | [![stable-macos-14](https://img.shields.io/github/actions/workflow/status/joley-gh/vtk-rs/test_stable_macos-14.yml?style=flat-square&label=CI)](https://github.com/joley-gh/vtk-rs/actions/workflows/test_stable_macos-14.yml) | Homebrew VTK |
-| `macos-15` | [![stable-macos-15](https://img.shields.io/github/actions/workflow/status/joley-gh/vtk-rs/test_stable_macos-15.yml?style=flat-square&label=CI)](https://github.com/joley-gh/vtk-rs/actions/workflows/test_stable_macos-15.yml) | Homebrew VTK |
+| `macos-latest` | [![stable-macos-latest](https://img.shields.io/github/actions/workflow/status/joley-gh/vtk-rs-bindings/test_stable_macos-latest.yml?style=flat-square&label=CI)](https://github.com/joley-gh/vtk-rs-bindings/actions/workflows/test_stable_macos-latest.yml) | Homebrew VTK |
+| `macos-14` | [![stable-macos-14](https://img.shields.io/github/actions/workflow/status/joley-gh/vtk-rs-bindings/test_stable_macos-14.yml?style=flat-square&label=CI)](https://github.com/joley-gh/vtk-rs-bindings/actions/workflows/test_stable_macos-14.yml) | Homebrew VTK |
+| `macos-15` | [![stable-macos-15](https://img.shields.io/github/actions/workflow/status/joley-gh/vtk-rs-bindings/test_stable_macos-15.yml?style=flat-square&label=CI)](https://github.com/joley-gh/vtk-rs-bindings/actions/workflows/test_stable_macos-15.yml) | Homebrew VTK |
 
 All workflows include:
 - Header comparison checks

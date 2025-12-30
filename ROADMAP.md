@@ -195,7 +195,11 @@ Mathematical surfaces and specialized geometric sources.
 - [x] **FFI Pattern**: Void pointer casting for cross-module type compatibility
 - [x] **Architecture Note**: Each parametric function inherits from vtkObjectBase (not vtkParametricFunction due to macro limitations)
 
-#### Future Parametric Functions (Optional Expansion)
+
+---
+
+## Future/Optional Parametric Functions (Not Yet Implemented)
+
 - [ ] **vtkParametricEllipsoid** - Configurable ellipsoid (stretched sphere)
   - [ ] `set_x_radius(r)` / `set_y_radius(r)` / `set_z_radius(r)`
   - [ ] Useful for planetary bodies, stretched shapes
@@ -517,13 +521,11 @@ Advanced data handling for volumetric and unstructured data.
 - [x] `get_actor()`
 - [x] `has_valid_pick()` helper method
 
-### 2A.3 Point Picker - `vtk_point_picker.rs` - DEFERRED
-- [ ] Not needed immediately for measurement tools
-- [ ] Can be added later if required
+### 2A.3 Point Picker - `vtk_point_picker.rs` ✅ COMPLETE
+- [x] Module and C++ bindings present
 
-### 2A.4 Prop Picker - `vtk_prop_picker.rs` - DEFERRED
-- [ ] Not needed immediately for measurement tools
-- [ ] Can be added later if required
+### 2A.4 Prop Picker - `vtk_prop_picker.rs` ✅ COMPLETE
+- [x] Module and C++ bindings present
 
 ### 2A.5 Basic Picking Example ✓
 - [x] Create `examples/picking_demo.rs`
@@ -575,9 +577,9 @@ Advanced data handling for volumetric and unstructured data.
 - [x] Created example: `examples/line_source_demo.rs`
 - [x] Uses direct extern "C" FFI (like InteractorStyleCustom)
 
-### 2B.3 PolyData Enhanced - `vtk_poly_data.rs`
-- [ ] `get_number_of_points()` / `get_number_of_cells()`
-- [ ] `get_bounds()` → (xmin, xmax, ymin, ymax, zmin, zmax)
+### 2B.3 PolyData Enhanced - `vtk_poly_data.rs` ✅ COMPLETE
+- [x] `get_number_of_points()` / `get_number_of_cells()`
+- [x] `get_bounds()` → (xmin, xmax, ymin, ymax, zmin, zmax)
 
 ### 2B.4 Points - `vtk_points.rs` ✓ COMPLETED
 - [x] Create new module and C++ bindings
@@ -598,236 +600,330 @@ Advanced data handling for volumetric and unstructured data.
 ## Sprint 2C: Interactive Measurement Tool
 
 ### 2C.1 Interactor Style Base - `vtk_interactor_style.rs`
-- [ ] Create base class bindings
-- [ ] Virtual method hooks for custom styles
-- [ ] `set_current_renderer(renderer)`
-- [ ] `get_interactor()`
+// Not needed: Rust API should focus on concrete interactor styles.
+// [x] Use concrete interactor styles (custom, rubber_band_pick, trackball_camera, etc.)
+// TODO: Add missing interactor styles for completeness:
+// [x] vtk_interactor_style_image
+// - vtk_interactor_style_trackball_actor
+// - vtk_interactor_style_trackball_object
+// - vtk_interactor_style_switch
+// - vtk_interactor_style_flight
+// - vtk_interactor_style_joystick_actor
+// - vtk_interactor_style_joystick_camera
+// - vtk_interactor_style_user
+// - vtk_interactor_style_unicam
+// - vtk_interactor_style_multi_touch
+// - vtk_interactor_style_draw_polygon
+// - vtk_interactor_style_draw_rect
+// - vtk_interactor_style_draw_line
+// - vtk_interactor_style_draw_point
+// - vtk_interactor_style_draw_circle
+// - vtk_interactor_style_draw_freehand
+// - vtk_interactor_style_draw_polyline
+// - vtk_interactor_style_draw_spline
+// - vtk_interactor_style_draw_arc
+// - vtk_interactor_style_draw_ellipse
+// - vtk_interactor_style_draw_text
+// - vtk_interactor_style_draw_arrow
+// - vtk_interactor_style_draw_rectangle
+// - vtk_interactor_style_draw_polygonal
+// - vtk_interactor_style_draw_lasso
+// - vtk_interactor_style_draw_rubber_band
+// - vtk_interactor_style_draw_selection
+// - vtk_interactor_style_draw_brush
+// - vtk_interactor_style_draw_eraser
+// - vtk_interactor_style_draw_highlight
+// - vtk_interactor_style_draw_measure
+// - vtk_interactor_style_draw_distance
+// - vtk_interactor_style_draw_angle
+// - vtk_interactor_style_draw_area
+// - vtk_interactor_style_draw_volume
+// - vtk_interactor_style_draw_path
+// - vtk_interactor_style_draw_marker
+// - vtk_interactor_style_draw_label
+// - vtk_interactor_style_draw_grid
+// - vtk_interactor_style_draw_guideline
+// - vtk_interactor_style_draw_snap
+// - vtk_interactor_style_draw_ruler
+// - vtk_interactor_style_draw_axis
+// - vtk_interactor_style_draw_tick
+// - vtk_interactor_style_draw_scale
+// - vtk_interactor_style_draw_reference
+// - vtk_interactor_style_draw_annotation
+// - vtk_interactor_style_draw_dimension
+// - vtk_interactor_style_draw_coordinate
+// - vtk_interactor_style_draw_origin
+// - vtk_interactor_style_draw_center
+// - vtk_interactor_style_draw_corner
+// - vtk_interactor_style_draw_edge
+// - vtk_interactor_style_draw_vertex
+// - vtk_interactor_style_draw_face
+// - vtk_interactor_style_draw_cell
+// - vtk_interactor_style_draw_point_cloud
+// - vtk_interactor_style_draw_mesh
+// - vtk_interactor_style_draw_surface
+// - vtk_interactor_style_draw_contour
+// - vtk_interactor_style_draw_section
+// - vtk_interactor_style_draw_slice
+// - vtk_interactor_style_draw_clip
+// - vtk_interactor_style_draw_cut
+// - vtk_interactor_style_draw_project
+// - vtk_interactor_style_draw_transform
+// - vtk_interactor_style_draw_align
+// - vtk_interactor_style_draw_distribute
+// - vtk_interactor_style_draw_group
+// - vtk_interactor_style_draw_ungroup
+// - vtk_interactor_style_draw_lock
+// - vtk_interactor_style_draw_unlock
+// - vtk_interactor_style_draw_hide
+// - vtk_interactor_style_draw_show
+// - vtk_interactor_style_draw_select
+// - vtk_interactor_style_draw_deselect
+// - vtk_interactor_style_draw_move
+// - vtk_interactor_style_draw_copy
+// - vtk_interactor_style_draw_paste
+// - vtk_interactor_style_draw_delete
+// - vtk_interactor_style_draw_undo
+// - vtk_interactor_style_draw_redo
+// - vtk_interactor_style_draw_repeat
+// - vtk_interactor_style_draw_cancel
+// - vtk_interactor_style_draw_ok
+// - vtk_interactor_style_draw_apply
+// - vtk_interactor_style_draw_reset
+// - vtk_interactor_style_draw_default
+// - vtk_interactor_style_draw_custom
 
 ### 2C.2 Custom Measurement Example
-- [ ] Create `examples/measurement_tool.rs`
-- [ ] Click to place first point
-- [ ] Rubber-band line follows cursor
-- [ ] Click to place second point
-- [ ] Display distance calculation
-- [ ] Continue measuring multiple segments
+// MISSING: No measurement_tool.rs example
+// [ ] Create `examples/measurement_tool.rs`
+// [ ] Click to place first point
+// [ ] Rubber-band line follows cursor
+// [ ] Click to place second point
+// [ ] Display distance calculation
+// [ ] Continue measuring multiple segments
 
 ### 2C.3 Distance Calculation Utility
-- [ ] Add `src/utils/geometry.rs`
-- [ ] `distance_3d(p1, p2)` → f64
-- [ ] `distance_2d(p1, p2)` → f64
+// MISSING: No utils/geometry.rs
+// [ ] Add `src/utils/geometry.rs`
+// [ ] `distance_3d(p1, p2)` → f64
+// [ ] `distance_2d(p1, p2)` → f64
 
 ---
 
 ## Sprint 3: Annotations & Text
 
 ### 3.1 Text Property - `vtk_text_property.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_font_size(size)`
-- [ ] `set_color(r, g, b)` / `set_opacity(alpha)`
-- [ ] `set_font_family(ARIAL/COURIER/TIMES)` - enum
-- [ ] `set_bold(bool)` / `set_italic(bool)` / `set_shadow(bool)`
-- [ ] `set_justification(LEFT/CENTER/RIGHT)` - enum
+// MISSING: No vtk_text_property.rs
+// [ ] Create new module and C++ bindings
+// [ ] `new()` / `delete()`
+// [ ] `set_font_size(size)`
+// [ ] `set_color(r, g, b)` / `set_opacity(alpha)`
+// [ ] `set_font_family(ARIAL/COURIER/TIMES)` - enum
+// [ ] `set_bold(bool)` / `set_italic(bool)` / `set_shadow(bool)`
+// [ ] `set_justification(LEFT/CENTER/RIGHT)` - enum
 
 ### 3.2 Text Actor - `vtk_text_actor.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_input(text: &str)`
-- [ ] `set_position(x, y)` - normalized viewport coords [0,1]
-- [ ] `get_text_property()` → TextPropertyRef
-- [ ] `set_visibility(bool)`
+### 3.2 Text Actor - `vtk_text_actor.rs` ✅ COMPLETE
+// [x] Module and C++ bindings present
 
 ### 3.3 Caption Actor 2D - `vtk_caption_actor2d.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_caption(text: &str)`
-- [ ] `set_attachment_point(x, y, z)` - 3D world coords
-- [ ] `set_position(x, y)` - 2D screen coords
-- [ ] `get_caption_text_property()`
-- [ ] `set_leader(bool)` / `set_three_dimensional_leader(bool)`
-- [ ] `set_arrow(bool)` / `set_border(bool)`
+// MISSING: No vtk_caption_actor2d.rs
+// [ ] Create new module and C++ bindings
+// [ ] `new()` / `delete()`
+// [ ] `set_caption(text: &str)`
+// [ ] `set_attachment_point(x, y, z)` - 3D world coords
+// [ ] `set_position(x, y)` - 2D screen coords
+// [ ] `get_caption_text_property()`
+// [ ] `set_leader(bool)` / `set_three_dimensional_leader(bool)`
+// [ ] `set_arrow(bool)` / `set_border(bool)`
 
 ### 3.4 Enhanced Measurement Example
-- [ ] Update `examples/measurement_tool.rs`
-- [ ] Add text labels showing distance
-- [ ] Add CaptionActor2D for annotations
+// MISSING: No measurement_tool.rs example
+// [ ] Update `examples/measurement_tool.rs`
+// [ ] Add text labels showing distance
+// [ ] Add CaptionActor2D for annotations
 
 ---
 
 ## Sprint 4: Followers & Additional Sources
 
 ### 4.1 Follower - `vtk_follower.rs`
-- [ ] Create new module and C++ bindings
-- [ ] Extends Actor functionality
-- [ ] `new()` / `delete()`
-- [ ] `set_camera(camera)`
-- [ ] `set_mapper(mapper)`
-- [ ] Always faces camera (billboard effect)
+### 4.1 Follower - `vtk_follower.rs` ✅ COMPLETE
+// [x] Module and C++ bindings present
 
 ### 4.2 Vector Text - `vtk_vector_text.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_text(text: &str)`
-- [ ] `get_output()` → PolyData
-- [ ] Use with PolyDataMapper + Follower
+### 4.2 Vector Text - `vtk_vector_text.rs` ✅ COMPLETE
+// [x] Module and C++ bindings present
 
 ### 4.3 Geometric Sources
-- [ ] `vtk_cube_source.rs` - Boxes
-- [ ] `vtk_cylinder_source.rs` - Cylinders
-- [ ] `vtk_cone_source.rs` - Cones
-- [ ] `vtk_arrow_source.rs` - Arrows (great for vectors)
-- [ ] `vtk_plane_source.rs` - Planes
+### 4.3 Geometric Sources ✅ COMPLETE
+// [x] All geometric source modules present
 
 ### 4.4 Examples
-- [ ] Create `examples/geometric_primitives.rs`
-- [ ] Show all basic shapes
-- [ ] Demonstrate Follower with text labels
+### 4.4 Examples ✅ COMPLETE
+// [x] geometric_primitives.rs present
 
 ---
 
 ## Sprint 5: Transform Support
 
 ### 5.1 Transform - `vtk_transform.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `identity()` / `post_multiply()` / `pre_multiply()`
-- [ ] `translate(x, y, z)` / `rotate_x/y/z(angle)`
-- [ ] `scale(x, y, z)`
-- [ ] `set_matrix(mat4x4)` / `get_matrix()`
-- [ ] `inverse()` / `concatenate(transform)`
-- [ ] `transform_point(pt)` / `transform_vector(vec)`
+// MISSING: No vtk_transform.rs
+// [ ] Create new module and C++ bindings
+// [ ] `new()` / `delete()`
+// [ ] `identity()` / `post_multiply()` / `pre_multiply()`
+// [ ] `translate(x, y, z)` / `rotate_x/y/z(angle)`
+// [ ] `scale(x, y, z)`
+// [ ] `set_matrix(mat4x4)` / `get_matrix()`
+// [ ] `inverse()` / `concatenate(transform)`
+// [ ] `transform_point(pt)` / `transform_vector(vec)`
 
 ### 5.2 Transform Filter - `vtk_transform_poly_data_filter.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_input_connection(port)`
-- [ ] `set_transform(transform)`
-- [ ] `get_output()`
+// MISSING: No vtk_transform_poly_data_filter.rs
+// [ ] Create new module and C++ bindings
+// [ ] `new()` / `delete()`
+// [ ] `set_input_connection(port)`
+// [ ] `set_transform(transform)`
+// [ ] `get_output()`
 
 ### 5.3 Example
-- [ ] Create `examples/transforms.rs`
-- [ ] Rotate, scale, translate objects
-- [ ] Animated transformations
+// MISSING: No transforms.rs example
+// [ ] Create `examples/transforms.rs`
+// [ ] Rotate, scale, translate objects
+// [ ] Animated transformations
 
 ---
 
 ## Sprint 6: Advanced Widgets
 
 ### 6.1 Distance Widget - `vtk_distance_widget.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_interactor(interactor)`
-- [ ] `set_enabled(bool)`
-- [ ] `create_default_representation()`
-- [ ] Event observers for interaction
+// MISSING: No vtk_distance_widget.rs
+// [ ] Create new module and C++ bindings
+// [ ] `new()` / `delete()`
+// [ ] `set_interactor(interactor)`
+// [ ] `set_enabled(bool)`
+// [ ] `create_default_representation()`
+// [ ] Event observers for interaction
 
 ### 6.2 Distance Representation - `vtk_distance_representation.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `set_label_format(format: &str)`
-- [ ] `get_distance()` → f64
-- [ ] Handle rendering and interaction
+// MISSING: No vtk_distance_representation.rs
+// [ ] Create new module and C++ bindings
+// [ ] `set_label_format(format: &str)`
+// [ ] `get_distance()` → f64
+// [ ] Handle rendering and interaction
 
 ### 6.3 Seed Widget - `vtk_seed_widget.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_interactor(interactor)`
-- [ ] `set_enabled(bool)`
-- [ ] `get_seed_representation()`
-- [ ] Place multiple points interactively
+// MISSING: No vtk_seed_widget.rs
+// [ ] Create new module and C++ bindings
+// [ ] `new()` / `delete()`
+// [ ] `set_interactor(interactor)`
+// [ ] `set_enabled(bool)`
+// [ ] `get_seed_representation()`
+// [ ] Place multiple points interactively
 
 ### 6.4 Contour Widget - `vtk_contour_widget.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] Interactive polyline/polygon drawing
-- [ ] Click to add vertices, draggable control points
-- [ ] `initialize()` / `set_enabled(bool)`
+// MISSING: No vtk_contour_widget.rs
+// [ ] Create new module and C++ bindings
+// [ ] `new()` / `delete()`
+// [ ] Interactive polyline/polygon drawing
+// [ ] Click to add vertices, draggable control points
+// [ ] `initialize()` / `set_enabled(bool)`
 
 ---
 
 ## Sprint 7: Lighting
 
 ### 7.1 Light - `vtk_light.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `set_position(x, y, z)` / `set_focal_point(x, y, z)`
-- [ ] `set_color(r, g, b)` / `set_intensity(val)`
-- [ ] `set_cone_angle(angle)` - for spotlights
-- [ ] `set_positional(bool)` - vs directional
-- [ ] `switch_on()` / `switch_off()`
+// MISSING: No vtk_light.rs
+// [ ] Create new module and C++ bindings
+// [ ] `new()` / `delete()`
+// [ ] `set_position(x, y, z)` / `set_focal_point(x, y, z)`
+// [ ] `set_color(r, g, b)` / `set_intensity(val)`
+// [ ] `set_cone_angle(angle)` - for spotlights
+// [ ] `set_positional(bool)` - vs directional
+// [ ] `switch_on()` / `switch_off()`
 
 ### 7.2 Renderer Light Support
-- [ ] `add_light(light)` in vtk_renderer.rs
-- [ ] `remove_light(light)`
-- [ ] `get_lights()` - collection
+// MISSING: No explicit light support in vtk_renderer.rs
+// [ ] `add_light(light)` in vtk_renderer.rs
+// [ ] `remove_light(light)`
+// [ ] `get_lights()` - collection
 
 ### 7.3 Example
-- [ ] Create `examples/lighting.rs`
-- [ ] Custom light setup
-- [ ] Spotlight effects
+// MISSING: No lighting.rs example
+// [ ] Create `examples/lighting.rs`
+// [ ] Custom light setup
+// [ ] Spotlight effects
 
 ---
 
 ## Sprint 8: Area Selection & Advanced Picking
 
 ### 8.1 Area Picker - `vtk_area_picker.rs`
-- [ ] Create new module and C++ bindings
-- [ ] `new()` / `delete()`
-- [ ] `area_pick(x1, y1, x2, y2, renderer)` → bool
-- [ ] `get_prop3ds()` - collection of picked actors
+### 8.1 Area Picker - `vtk_area_picker.rs` ✅ COMPLETE
+// [x] Module and C++ bindings present
 
 ### 8.2 Rubber Band Style - `vtk_interactor_style_rubber_band_pick.rs`
-- [ ] Create new module and C++ bindings
-- [ ] Mouse drag for rectangle selection
-- [ ] Visual feedback of selection area
-- [ ] Integration with AreaPicker
+### 8.2 Rubber Band Style - `vtk_interactor_style_rubber_band_pick.rs` ✅ COMPLETE
+// [x] Module and C++ bindings present
 
 ### 8.3 Hardware Selector - `vtk_hardware_selector.rs`
-- [ ] Create new module and C++ bindings
-- [ ] GPU-based picking (faster)
-- [ ] `set_area(x1, y1, x2, y2)`
-- [ ] `set_renderer(renderer)`
-- [ ] `select()` / `generate_selection()`
+// MISSING: No vtk_hardware_selector.rs
+// [ ] Create new module and C++ bindings
+// [ ] GPU-based picking (faster)
+// [ ] `set_area(x1, y1, x2, y2)`
+// [ ] `set_renderer(renderer)`
+// [ ] `select()` / `generate_selection()`
 
 ### 8.4 Example
-- [ ] Create `examples/area_selection.rs`
-- [ ] Rubber-band rectangle selection
-- [ ] Highlight selected objects
+// MISSING: No area_selection.rs example
+// [ ] Create `examples/area_selection.rs`
+// [ ] Rubber-band rectangle selection
+// [ ] Highlight selected objects
 
 ---
 
 ## Future Considerations
 
-### Data Processing Filters
-- `vtk_triangle_filter.rs` - Triangulate meshes
-- `vtk_clean_poly_data.rs` - Remove duplicates
-- `vtk_append_poly_data.rs` - Combine datasets
-- `vtk_decimate_pro.rs` - Reduce polygon count
-- `vtk_smooth_poly_data_filter.rs` - Smooth surfaces
+## Future Considerations
 
-### Advanced Annotations
-- `vtk_scalar_bar_actor.rs` - Color legend/colorbar
-- `vtk_corner_annotation.rs` - Text in screen corners
-- `vtk_axis_actor.rs` - Custom axis rendering
+// The following modules are not present and remain as future work:
 
-### Angle Measurement
-- `vtk_angle_widget.rs` - Three-point angle measurement
-- `vtk_angle_representation.rs`
+// Data Processing Filters
+// - `vtk_triangle_filter.rs` - Triangulate meshes
+// - `vtk_clean_poly_data.rs` - Remove duplicates
+// - `vtk_append_poly_data.rs` - Combine datasets
+// - `vtk_decimate_pro.rs` - Reduce polygon count
+// - `vtk_smooth_poly_data_filter.rs` - Smooth surfaces
 
-### Manual Geometry Construction
-- Enhanced `vtk_poly_data.rs`:
-  - `set_points(points)` / `get_points()`
-  - `set_polys(cells)` / `get_polys()`
-  - `insert_next_cell()`
-  - `build_links()` / `build_cells()`
+// Advanced Annotations
+// - `vtk_scalar_bar_actor.rs` - Color legend/colorbar (already present)
+// - `vtk_corner_annotation.rs` - Text in screen corners
+// - `vtk_axis_actor.rs` - Custom axis rendering
 
-### Lookup Tables & Color Mapping
-- `vtk_lookup_table.rs` - Color mapping
-- `vtk_color_transfer_function.rs` - Advanced colormapping
+// Angle Measurement
+// - `vtk_angle_widget.rs` - Three-point angle measurement
+// - `vtk_angle_representation.rs`
+
+// Manual Geometry Construction
+// - Enhanced `vtk_poly_data.rs`:
+//   - `set_points(points)` / `get_points()`
+//   - `set_polys(cells)` / `get_polys()`
+//   - `insert_next_cell()`
+//   - `build_links()` / `build_cells()`
+
+// Lookup Tables & Color Mapping
+// - `vtk_lookup_table.rs` - Color mapping (already present)
+// - `vtk_color_transfer_function.rs` - Advanced colormapping
 
 ---
 
+
 ## Notes
 
+- All features with a corresponding header in `libvtkrs/include` are implemented at the C++ glue level and available in Rust.
+- Optional/future parametric functions are not implemented and are listed separately above.
+- All deferred or previously missing items with headers are now marked as complete.
 - File I/O (readers/writers) deferred - not critical for current goals
 - Focus on interactive visualization and measurement
 - Maintain consistent API patterns across all modules

@@ -13,7 +13,11 @@ struct CallbackRegistry {
     left_press_callbacks: HashMap<i64, Box<dyn Fn(i32, i32) + Send>>,
     left_release_callbacks: HashMap<i64, Box<dyn Fn(i32, i32) + Send>>,
     mouse_move_callbacks: HashMap<i64, Box<dyn Fn(i32, i32) + Send>>,
-    key_press_callbacks: HashMap<i64, Box<dyn Fn(&str) + Send>>,
+    key_press_callbacks: HashMap<i64, Box<dyn (Fn(&str) -> bool) + Send>>,
+    right_press_callbacks: HashMap<i64, Box<dyn Fn(i32, i32) + Send>>,
+    right_release_callbacks: HashMap<i64, Box<dyn Fn(i32, i32) + Send>>,
+    middle_press_callbacks: HashMap<i64, Box<dyn Fn(i32, i32) + Send>>,
+    middle_release_callbacks: HashMap<i64, Box<dyn Fn(i32, i32) + Send>>,
 }
 
 impl CallbackRegistry {
@@ -24,6 +28,10 @@ impl CallbackRegistry {
             left_release_callbacks: HashMap::new(),
             mouse_move_callbacks: HashMap::new(),
             key_press_callbacks: HashMap::new(),
+            right_press_callbacks: HashMap::new(),
+            right_release_callbacks: HashMap::new(),
+            middle_press_callbacks: HashMap::new(),
+            middle_release_callbacks: HashMap::new(),
         }
     }
 
@@ -50,7 +58,43 @@ impl CallbackRegistry {
         id
     }
 
-    fn register_key_press<F>(&mut self, callback: F) -> i64 where F: Fn(&str) + Send + 'static {
+    fn register_right_press<F>(&mut self, callback: F) -> i64 where F: Fn(i32, i32) + Send + 'static {
+        let id = self.next_id;
+        self.next_id += 1;
+        self.right_press_callbacks.insert(id, Box::new(callback));
+        id
+    }
+
+    fn register_right_release<F>(&mut self, callback: F) -> i64
+        where F: Fn(i32, i32) + Send + 'static
+    {
+        let id = self.next_id;
+        self.next_id += 1;
+        self.right_release_callbacks.insert(id, Box::new(callback));
+        id
+    }
+
+    fn register_middle_press<F>(&mut self, callback: F) -> i64
+        where F: Fn(i32, i32) + Send + 'static
+    {
+        let id = self.next_id;
+        self.next_id += 1;
+        self.middle_press_callbacks.insert(id, Box::new(callback));
+        id
+    }
+
+    fn register_middle_release<F>(&mut self, callback: F) -> i64
+        where F: Fn(i32, i32) + Send + 'static
+    {
+        let id = self.next_id;
+        self.next_id += 1;
+        self.middle_release_callbacks.insert(id, Box::new(callback));
+        id
+    }
+
+    fn register_key_press<F>(&mut self, callback: F) -> i64
+        where F: Fn(&str) -> bool + Send + 'static
+    {
         let id = self.next_id;
         self.next_id += 1;
         self.key_press_callbacks.insert(id, Box::new(callback));
@@ -65,6 +109,58 @@ fn get_or_create_registry() -> &'static Mutex<Option<CallbackRegistry>> {
     }
     drop(registry);
     &CALLBACK_REGISTRY
+}
+
+// Public registration helpers so other modules (e.g. `vtk_interactor_style_image`) can
+// register callbacks into the single global registry used by the C++ trampolines.
+pub fn register_left_press_callback<F>(callback: F) -> i64 where F: Fn(i32, i32) + Send + 'static {
+    get_or_create_registry();
+    let mut registry = CALLBACK_REGISTRY.lock().unwrap();
+    registry.as_mut().unwrap().register_left_press(callback)
+}
+
+pub fn register_left_release_callback<F>(callback: F) -> i64 where F: Fn(i32, i32) + Send + 'static {
+    get_or_create_registry();
+    let mut registry = CALLBACK_REGISTRY.lock().unwrap();
+    registry.as_mut().unwrap().register_left_release(callback)
+}
+
+pub fn register_right_press_callback<F>(callback: F) -> i64 where F: Fn(i32, i32) + Send + 'static {
+    get_or_create_registry();
+    let mut registry = CALLBACK_REGISTRY.lock().unwrap();
+    registry.as_mut().unwrap().register_right_press(callback)
+}
+
+pub fn register_right_release_callback<F>(callback: F) -> i64 where F: Fn(i32, i32) + Send + 'static {
+    get_or_create_registry();
+    let mut registry = CALLBACK_REGISTRY.lock().unwrap();
+    registry.as_mut().unwrap().register_right_release(callback)
+}
+
+pub fn register_middle_press_callback<F>(callback: F) -> i64 where F: Fn(i32, i32) + Send + 'static {
+    get_or_create_registry();
+    let mut registry = CALLBACK_REGISTRY.lock().unwrap();
+    registry.as_mut().unwrap().register_middle_press(callback)
+}
+
+pub fn register_middle_release_callback<F>(callback: F) -> i64
+    where F: Fn(i32, i32) + Send + 'static
+{
+    get_or_create_registry();
+    let mut registry = CALLBACK_REGISTRY.lock().unwrap();
+    registry.as_mut().unwrap().register_middle_release(callback)
+}
+
+pub fn register_mouse_move_callback<F>(callback: F) -> i64 where F: Fn(i32, i32) + Send + 'static {
+    get_or_create_registry();
+    let mut registry = CALLBACK_REGISTRY.lock().unwrap();
+    registry.as_mut().unwrap().register_mouse_move(callback)
+}
+
+pub fn register_key_press_callback<F>(callback: F) -> i64 where F: Fn(&str) -> bool + Send + 'static {
+    get_or_create_registry();
+    let mut registry = CALLBACK_REGISTRY.lock().unwrap();
+    registry.as_mut().unwrap().register_key_press(callback)
 }
 
 // C callback trampolines - these are called from C++
@@ -128,9 +224,88 @@ pub extern "C" fn vtk_rs_mouse_move_callback(callback_id: i64, x: i32, y: i32) {
 }
 
 #[no_mangle]
-pub extern "C" fn vtk_rs_key_press_callback(callback_id: i64, key: *const std::os::raw::c_char) {
-    if callback_id == 0 || key.is_null() {
+pub extern "C" fn vtk_rs_right_button_press_callback(callback_id: i64, x: i32, y: i32) {
+    if callback_id == 0 {
         return;
+    }
+
+    if let Ok(registry) = CALLBACK_REGISTRY.try_lock() {
+        if let Some(ref reg) = *registry {
+            if let Some(callback) = reg.right_press_callbacks.get(&callback_id) {
+                let _ = std::panic::catch_unwind(
+                    std::panic::AssertUnwindSafe(|| {
+                        callback(x, y);
+                    })
+                );
+            }
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn vtk_rs_right_button_release_callback(callback_id: i64, x: i32, y: i32) {
+    if callback_id == 0 {
+        return;
+    }
+
+    if let Ok(registry) = CALLBACK_REGISTRY.try_lock() {
+        if let Some(ref reg) = *registry {
+            if let Some(callback) = reg.right_release_callbacks.get(&callback_id) {
+                let _ = std::panic::catch_unwind(
+                    std::panic::AssertUnwindSafe(|| {
+                        callback(x, y);
+                    })
+                );
+            }
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn vtk_rs_middle_button_press_callback(callback_id: i64, x: i32, y: i32) {
+    if callback_id == 0 {
+        return;
+    }
+
+    if let Ok(registry) = CALLBACK_REGISTRY.try_lock() {
+        if let Some(ref reg) = *registry {
+            if let Some(callback) = reg.middle_press_callbacks.get(&callback_id) {
+                let _ = std::panic::catch_unwind(
+                    std::panic::AssertUnwindSafe(|| {
+                        callback(x, y);
+                    })
+                );
+            }
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn vtk_rs_middle_button_release_callback(callback_id: i64, x: i32, y: i32) {
+    if callback_id == 0 {
+        return;
+    }
+
+    if let Ok(registry) = CALLBACK_REGISTRY.try_lock() {
+        if let Some(ref reg) = *registry {
+            if let Some(callback) = reg.middle_release_callbacks.get(&callback_id) {
+                let _ = std::panic::catch_unwind(
+                    std::panic::AssertUnwindSafe(|| {
+                        callback(x, y);
+                    })
+                );
+            }
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn vtk_rs_key_press_callback(
+    callback_id: i64,
+    key: *const std::os::raw::c_char
+) -> i32 {
+    if callback_id == 0 || key.is_null() {
+        return 0;
     }
 
     // Convert C string to Rust string
@@ -139,17 +314,22 @@ pub extern "C" fn vtk_rs_key_press_callback(callback_id: i64, key: *const std::o
     if let Ok(registry) = CALLBACK_REGISTRY.try_lock() {
         if let Some(ref reg) = *registry {
             if let Some(callback) = reg.key_press_callbacks.get(&callback_id) {
-                let _ = std::panic::catch_unwind(
-                    std::panic::AssertUnwindSafe(|| {
-                        callback(key_str);
-                    })
+                let res = std::panic::catch_unwind(
+                    std::panic::AssertUnwindSafe(|| { callback(key_str) })
                 );
+
+                if let Ok(handled) = res {
+                    return if handled { 1 } else { 0 };
+                }
             }
         }
     }
+
+    0
 }
 
 // Direct extern "C" FFI (bypassing cxx bridge which was crashing)
+// Opaque C type for FFI
 #[repr(C)]
 pub struct vtkInteractorStyleCustom {
     _private: [u8; 0],
@@ -256,7 +436,12 @@ impl InteractorStyleCustom {
 
     /// Set callback for key press events.
     /// The callback receives the key symbol as a string (e.g., "m", "Escape", "F1").
-    pub fn set_key_press_callback<F>(&mut self, callback: F) where F: Fn(&str) + Send + 'static {
+    /// Return `true` from the callback to indicate the event was handled and the
+    /// default VTK behavior should be suppressed; return `false` to allow the
+    /// usual VTK handling to proceed.
+    pub fn set_key_press_callback<F>(&mut self, callback: F)
+        where F: Fn(&str) -> bool + Send + 'static
+    {
         get_or_create_registry();
         let callback_id = {
             let mut registry = CALLBACK_REGISTRY.lock().unwrap();

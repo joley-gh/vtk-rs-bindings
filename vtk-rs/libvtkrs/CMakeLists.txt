@@ -57,6 +57,7 @@ add_library(vtkrs STATIC
    ${PROJECT_SOURCE_DIR}/include/vtk_interactor_style_custom.h
    ${PROJECT_SOURCE_DIR}/include/vtk_interactor_style_trackball_camera.h
    ${PROJECT_SOURCE_DIR}/include/vtk_interactor_style_rubber_band_pick.h
+   ${PROJECT_SOURCE_DIR}/include/vtk_interactor_style_image.h
    ${PROJECT_SOURCE_DIR}/include/vtk_line_source.h
    ${PROJECT_SOURCE_DIR}/include/vtk_mapper.h
    ${PROJECT_SOURCE_DIR}/include/vtk_named_colors.h
@@ -141,6 +142,7 @@ target_sources(vtkrs
         ${PROJECT_SOURCE_DIR}/src/vtk_interactor_style_custom.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_interactor_style_trackball_camera.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_interactor_style_rubber_band_pick.cpp
+        ${PROJECT_SOURCE_DIR}/src/vtk_interactor_style_image.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_line_source.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_mapper.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_named_colors.cpp

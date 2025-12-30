@@ -64,8 +64,7 @@ private:
     int end_position[2] = {0, 0};
     bool moving = false;
 };
-
-// C-style wrapper functions (extern "C" for direct Rust FFI)
+// C-style wrapper functions for the Custom variant
 extern "C" {
     vtkInteractorStyleCustom* interactor_style_custom_new();
     void interactor_style_custom_delete(vtkInteractorStyleCustom* style);

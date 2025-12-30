@@ -624,6 +624,7 @@ fn main() {
             }
             _ => {}
         }
+        true
     });
 
     interactor.set_interactor_style_custom(&mut style);
