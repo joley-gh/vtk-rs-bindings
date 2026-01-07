@@ -59,10 +59,11 @@ pub trait CameraObserverExt {
     ///
     /// # Example
     /// ```no_run
-    /// use vtk_rs::CameraObserverExt;
+    /// use vtk_rs::*;
     ///
+    /// let mut renderer = Renderer::new();
     /// let mut camera = renderer.get_active_camera();
-    /// let (_tag, _command) = camera.on_modified(|camera_ref| {
+    /// let (_tag, _command) = camera.on_modified(|camera_ref: &mut CameraRef| {
     ///     let (x, y, z) = camera_ref.get_position();
     ///     println!("Camera moved to: ({}, {}, {})", x, y, z);
     /// });

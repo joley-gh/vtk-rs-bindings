@@ -478,3 +478,11 @@ impl TextActorResizeManager {
         self._callback_data.actors.iter_mut().map(|b| b.as_mut())
     }
 }
+
+// Implement AddableToRenderer for TextActor (2D actor - vtkActor2D)
+impl crate::AddableToRenderer for TextActor {
+    fn add_to_renderer_internal(&mut self, renderer: &mut crate::Renderer) {
+        let actor_ptr = self.as_raw_ptr() as *mut crate::vtk_renderer::ffi::vtkActor2D;
+        renderer._add_actor_2d(actor_ptr);
+    }
+}

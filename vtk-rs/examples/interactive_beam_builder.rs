@@ -469,15 +469,10 @@ fn main() {
     node_glyph.set_scale_mode_to_data_scaling_off();
     node_glyph.set_scale_factor(1.0);
     node_glyph.set_input_connection(node_poly_data.get_output_port());
-
-    let sphere_port = SphereSource::get_output_port(&mut sphere_source);
-    let sphere_ptr: *mut std::ffi::c_void = sphere_port.into();
-    node_glyph.set_source_connection(sphere_ptr as *mut _);
+    node_glyph.set_source_connection(SphereSource::get_output_port(&mut sphere_source));
 
     let mut node_mapper = PolyDataMapper::new();
-    node_mapper.set_input_connection(unsafe {
-        AlgorithmOutputPort::from_raw(node_glyph.get_output_port() as *mut std::ffi::c_void)
-    });
+    node_mapper.set_input_connection(node_glyph.get_output_port());
 
     let mut node_actor = Actor::new();
     node_actor.set_mapper(&mut node_mapper);
@@ -498,7 +493,7 @@ fn main() {
     let beam_output_port = beam_poly_data.get_output_port();
     println!("DEBUG: After beam_poly_data.get_output_port()");
 
-    tube_filter.set_input_connection(beam_output_port as *mut std::ffi::c_void);
+    tube_filter.set_input_connection(beam_output_port);
     println!("DEBUG: After tube_filter.set_input_connection()");
 
     tube_filter.set_radius(0.05);

@@ -23,11 +23,15 @@ crate::define_object!(
     @inherit vtkObjectBase
 );
 
-impl ParametricKlein {
-    /// Get a pointer to the base vtkParametricFunction for use with ParametricFunctionSource
-    pub fn as_parametric_function(&mut self) -> *mut std::ffi::c_void {
+// Implement ParametricFunction trait for ParametricKlein
+impl super::ParametricFunction for ParametricKlein {
+    fn as_parametric_function_ptr(
+        &mut self
+    ) -> *mut crate::vtk_parametric_function::ffi::vtkParametricFunction {
         unsafe {
-            ffi::parametric_klein_as_parametric_function(self.ptr.as_mut()) as *mut std::ffi::c_void
+            ffi::parametric_klein_as_parametric_function(
+                self.ptr.as_mut()
+            ) as *mut crate::vtk_parametric_function::ffi::vtkParametricFunction
         }
     }
 }

@@ -54,11 +54,17 @@ impl ParametricTorus {
     pub fn get_cross_section_radius(&self) -> f64 {
         ffi::parametric_torus_get_cross_section_radius(&self.ptr.as_ref())
     }
+}
 
-    /// Get a pointer to the base vtkParametricFunction for use with ParametricFunctionSource
-    pub fn as_parametric_function(&mut self) -> *mut std::ffi::c_void {
+// Implement ParametricFunction trait for ParametricTorus
+impl super::ParametricFunction for ParametricTorus {
+    fn as_parametric_function_ptr(
+        &mut self
+    ) -> *mut crate::vtk_parametric_function::ffi::vtkParametricFunction {
         unsafe {
-            ffi::parametric_torus_as_parametric_function(self.ptr.as_mut()) as *mut std::ffi::c_void
+            ffi::parametric_torus_as_parametric_function(
+                self.ptr.as_mut()
+            ) as *mut crate::vtk_parametric_function::ffi::vtkParametricFunction
         }
     }
 }

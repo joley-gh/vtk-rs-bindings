@@ -91,18 +91,13 @@ pub enum ColorMode {
 /// // Use Glyph3D to place spheres at all points
 /// let mut glyph = Glyph3D::new();
 /// glyph.set_input_connection(poly_data.get_output_port());
-///
-/// let sphere_port = SphereSource::get_output_port(&mut sphere);
-/// let sphere_ptr: *mut std::ffi::c_void = sphere_port.into();
-/// glyph.set_source_connection(sphere_ptr as *mut _);
+/// glyph.set_source_connection(sphere.get_output_port());
 /// glyph.set_scale_mode_to_data_scaling_off();
 /// glyph.set_scale_factor(1.0);
 ///
 /// // Connect to mapper
 /// let mut mapper = PolyDataMapper::new();
-/// mapper.set_input_connection(unsafe {
-///     AlgorithmOutputPort::from_raw(glyph.get_output_port() as *mut std::ffi::c_void)
-/// });
+/// mapper.set_input_connection(glyph.get_output_port());
 /// ```
 ///
 /// # Scaling Options
@@ -138,7 +133,14 @@ impl Glyph3D {
     ///
     /// The input should be a dataset with points (PolyData, Points, etc.).
     /// A glyph will be placed at each point in the input.
-    pub fn set_input_connection(&mut self, input: *mut AlgorithmOutputPort) {
+    pub fn set_input_connection(&mut self, input: crate::AlgorithmOutputPort) {
+        let ptr: *mut std::ffi::c_void = input.into();
+        unsafe { glyph_3d_set_input_connection(self.inner, ptr as *mut AlgorithmOutputPort) }
+    }
+
+    /// Raw pointer version - internal use only.
+    #[doc(hidden)]
+    pub(crate) fn _set_input_connection_raw(&mut self, input: *mut AlgorithmOutputPort) {
         unsafe { glyph_3d_set_input_connection(self.inner, input) }
     }
 
@@ -149,12 +151,44 @@ impl Glyph3D {
     /// - ArrowSource: for vector visualization
     /// - CubeSource: for voxel rendering
     /// - Custom PolyData: any geometric shape
-    pub fn set_source_connection(&mut self, source: *mut AlgorithmOutputPort) {
+    ///
+    /// # Example
+    /// ```no_run
+    /// # use vtk_rs::*;
+    /// let mut sphere = SphereSource::new();
+    /// let mut glyph = Glyph3D::new();
+    /// glyph.set_source_connection(sphere.get_output_port());
+    /// ```
+    pub fn set_source_connection(&mut self, source: crate::AlgorithmOutputPort) {
+        let ptr: *mut std::ffi::c_void = source.into();
+        unsafe { glyph_3d_set_source_connection(self.inner, ptr as *mut AlgorithmOutputPort) }
+    }
+
+    /// Raw pointer version - internal use only.
+    #[doc(hidden)]
+    pub(crate) fn _set_source_connection_raw(&mut self, source: *mut AlgorithmOutputPort) {
         unsafe { glyph_3d_set_source_connection(self.inner, source) }
     }
 
     /// Gets the output port for connecting to a mapper.
-    pub fn get_output_port(&mut self) -> *mut AlgorithmOutputPort {
+    ///
+    /// # Example
+    /// ```no_run
+    /// # use vtk_rs::*;
+    /// let mut glyph = Glyph3D::new();
+    /// let mut mapper = PolyDataMapper::new();
+    /// mapper.set_input_connection(glyph.get_output_port());
+    /// ```
+    pub fn get_output_port(&mut self) -> crate::AlgorithmOutputPort {
+        unsafe {
+            let ptr = glyph_3d_get_output_port(self.inner);
+            crate::AlgorithmOutputPort::from_raw(ptr as *mut std::ffi::c_void)
+        }
+    }
+
+    /// Raw pointer version - internal use only.
+    #[doc(hidden)]
+    pub(crate) fn _get_output_port_raw(&mut self) -> *mut AlgorithmOutputPort {
         unsafe { glyph_3d_get_output_port(self.inner) }
     }
 

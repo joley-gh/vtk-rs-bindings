@@ -161,3 +161,11 @@ impl FollowerRef {
         [x, y, z]
     }
 }
+
+// Implement AddableToRenderer for Follower (3D actor - inherits from vtkActor)
+impl crate::AddableToRenderer for Follower {
+    fn add_to_renderer_internal(&mut self, renderer: &mut crate::Renderer) {
+        let actor_ptr = self.as_raw_ptr() as *mut crate::vtk_renderer::ffi::vtkActor;
+        renderer._add_actor_3d(actor_ptr);
+    }
+}

@@ -107,14 +107,13 @@ fn main() {
     top_right_prop.set_vertical_justification_to_top();
 
     // Add all text actors to renderer
-    unsafe {
-        renderer.add_actor_raw(title.as_raw_ptr() as *mut std::ffi::c_void);
-        renderer.add_actor_raw(status.as_raw_ptr() as *mut std::ffi::c_void);
-        renderer.add_actor_raw(info.as_raw_ptr() as *mut std::ffi::c_void);
-        renderer.add_actor_raw(instructions.as_raw_ptr() as *mut std::ffi::c_void);
-        renderer.add_actor_raw(label.as_raw_ptr() as *mut std::ffi::c_void);
-        renderer.add_actor_raw(top_right.as_raw_ptr() as *mut std::ffi::c_void);
-    }
+    renderer.add_actor(&mut title);
+    renderer.add_actor(&mut status);
+    renderer.add_actor(&mut info);
+    renderer.add_actor(&mut instructions);
+    renderer.add_actor(&mut label);
+    renderer.add_actor(&mut top_right);
+
     renderer.reset_camera();
 
     println!("=== Text Actor Configuration ===");

@@ -105,7 +105,7 @@ fn main() {
     legend.set_padding(5); // Padding inside the box
 
     // Add legend to renderer as a 2D overlay
-    renderer.add_legend_box(&mut legend);
+    renderer.add_actor(&mut legend);
 
     println!("Legend created with 4 entries:");
     println!("  - Red sphere (Category A) at position (-2, 0, 0)");

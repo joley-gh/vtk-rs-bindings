@@ -69,9 +69,7 @@ fn main() {
     let mut camera = renderer.get_active_camera();
     cube_axes.set_camera(&mut camera);
 
-    unsafe {
-        renderer.add_actor_raw(cube_axes.as_mut_ptr() as *mut std::ffi::c_void);
-    }
+    renderer.add_actor(&mut cube_axes);
 
     // Reset camera to fit all visible actors in the scene
     renderer.reset_camera();

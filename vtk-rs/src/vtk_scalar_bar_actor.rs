@@ -223,3 +223,11 @@ impl Default for ScalarBarActor {
         Self::new()
     }
 }
+
+// Implement AddableToRenderer for ScalarBarActor (2D actor - vtkActor2D)
+impl crate::AddableToRenderer for ScalarBarActor {
+    fn add_to_renderer_internal(&mut self, renderer: &mut crate::Renderer) {
+        let actor_ptr = self.as_raw_ptr() as *mut crate::vtk_renderer::ffi::vtkActor2D;
+        renderer._add_actor_2d(actor_ptr);
+    }
+}

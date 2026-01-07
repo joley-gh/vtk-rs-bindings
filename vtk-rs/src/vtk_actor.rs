@@ -270,3 +270,11 @@ pub(crate) mod private {
 /// [`vtkActor`](https://vtk.org/doc/nightly/html/classvtkActor.html)
 #[allow(non_camel_case_types)]
 pub trait vtkActor: private::Sealed {}
+
+// Implement AddableToRenderer for Actor (3D actor - vtkActor)
+impl crate::AddableToRenderer for Actor {
+    fn add_to_renderer_internal(&mut self, renderer: &mut crate::Renderer) {
+        let actor_ptr = self.as_mut_ptr();
+        renderer._add_actor_3d(actor_ptr as *mut crate::vtk_renderer::ffi::vtkActor);
+    }
+}

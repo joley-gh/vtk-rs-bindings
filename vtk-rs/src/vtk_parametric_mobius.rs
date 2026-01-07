@@ -37,13 +37,17 @@ impl ParametricMobius {
     pub fn get_radius(&self) -> f64 {
         ffi::parametric_mobius_get_radius(&self.ptr.as_ref())
     }
+}
 
-    /// Get a pointer to the base vtkParametricFunction for use with ParametricFunctionSource
-    pub fn as_parametric_function(&mut self) -> *mut std::ffi::c_void {
+// Implement ParametricFunction trait for ParametricMobius
+impl super::ParametricFunction for ParametricMobius {
+    fn as_parametric_function_ptr(
+        &mut self
+    ) -> *mut crate::vtk_parametric_function::ffi::vtkParametricFunction {
         unsafe {
             ffi::parametric_mobius_as_parametric_function(
                 self.ptr.as_mut()
-            ) as *mut std::ffi::c_void
+            ) as *mut crate::vtk_parametric_function::ffi::vtkParametricFunction
         }
     }
 }

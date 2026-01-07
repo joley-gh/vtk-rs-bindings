@@ -173,7 +173,7 @@ pub use vtk_world_point_picker::*;
 pub use vtk_point_picker::*;
 pub use vtk_area_picker::*;
 pub use vtk_prop3d_collection::*;
-// pub use vtk_parametric_function::*;  // No public types to export from base class
+pub use vtk_parametric_function::ParametricFunction;
 pub use vtk_parametric_function_source::*;
 pub use vtk_parametric_torus::*;
 pub use vtk_parametric_klein::*;

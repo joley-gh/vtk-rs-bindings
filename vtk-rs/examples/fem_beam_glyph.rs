@@ -141,18 +141,12 @@ fn main() {
     // Use Glyph3D to place spheres at all nodes efficiently
     let mut glyph = Glyph3D::new();
     glyph.set_input_connection(node_poly_data.get_output_port());
-
-    let sphere_port = SphereSource::get_output_port(&mut sphere_source);
-    let sphere_ptr: *mut std::ffi::c_void = sphere_port.into();
-    glyph.set_source_connection(sphere_ptr as *mut _);
-
+    glyph.set_source_connection(SphereSource::get_output_port(&mut sphere_source));
     glyph.set_scale_mode_to_data_scaling_off(); // Uniform size for all nodes
     glyph.set_scale_factor(1.0);
 
     let mut node_mapper = PolyDataMapper::new();
-    node_mapper.set_input_connection(unsafe {
-        AlgorithmOutputPort::from_raw(glyph.get_output_port() as *mut std::ffi::c_void)
-    });
+    node_mapper.set_input_connection(glyph.get_output_port());
 
     let mut node_actor = Actor::new();
     node_actor.set_mapper(&mut node_mapper);

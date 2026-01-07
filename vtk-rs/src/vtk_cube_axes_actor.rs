@@ -107,3 +107,11 @@ pub(crate) mod private {
 /// Creates a bounding box with labeled axes and optional gridlines.
 #[allow(non_camel_case_types)]
 pub trait vtkCubeAxesActor: private::Sealed {}
+
+// Implement AddableToRenderer for CubeAxesActor (3D actor - inherits from vtkActor)
+impl crate::AddableToRenderer for CubeAxesActor {
+    fn add_to_renderer_internal(&mut self, renderer: &mut crate::Renderer) {
+        let actor_ptr = self.as_mut_ptr() as *mut crate::vtk_renderer::ffi::vtkActor;
+        renderer._add_actor_3d(actor_ptr);
+    }
+}

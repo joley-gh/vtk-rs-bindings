@@ -168,7 +168,16 @@ impl PolyData {
     ///
     /// This creates a vtkTrivialProducer to wrap the PolyData as an algorithm output,
     /// allowing it to be connected to filters that expect algorithm output ports.
-    pub fn get_output_port(&mut self) -> *mut crate::AlgorithmOutputPort {
+    pub fn get_output_port(&mut self) -> crate::AlgorithmOutputPort {
+        unsafe {
+            let ptr = poly_data_get_producer_port(self.ptr);
+            crate::AlgorithmOutputPort::from_raw(ptr as *mut std::ffi::c_void)
+        }
+    }
+
+    /// Raw pointer version - internal use only.
+    #[doc(hidden)]
+    pub(crate) fn _get_output_port_raw(&mut self) -> *mut crate::AlgorithmOutputPort {
         unsafe { poly_data_get_producer_port(self.ptr) }
     }
 

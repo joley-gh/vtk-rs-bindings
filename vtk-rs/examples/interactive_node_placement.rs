@@ -225,14 +225,10 @@ fn main() {
     poly_data.set_points(&mut points);
 
     glyph.set_input_connection(poly_data.get_output_port());
-    let sphere_port = SphereSource::get_output_port(&mut sphere_source);
-    let sphere_ptr: *mut std::ffi::c_void = sphere_port.into();
-    glyph.set_source_connection(sphere_ptr as *mut _);
+    glyph.set_source_connection(SphereSource::get_output_port(&mut sphere_source));
 
     let mut mapper = PolyDataMapper::new();
-    mapper.set_input_connection(unsafe {
-        AlgorithmOutputPort::from_raw(glyph.get_output_port() as *mut std::ffi::c_void)
-    });
+    mapper.set_input_connection(glyph.get_output_port());
 
     let mut actor = Actor::new();
     actor.set_mapper(&mut mapper);

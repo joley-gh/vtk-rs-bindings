@@ -1,5 +1,5 @@
 #[cxx::bridge]
-mod ffi {
+pub(crate) mod ffi {
     unsafe extern "C++" {
         include!("vtk_renderer.h");
         include!("vtk_actor.h");
@@ -44,6 +44,13 @@ mod ffi {
     }
 }
 
+/// Trait for types that can be added to a renderer.
+/// This allows both 3D actors (vtkActor) and 2D actors (vtkActor2D) to be added safely.
+pub trait AddableToRenderer {
+    #[doc(hidden)]
+    fn add_to_renderer_internal(&mut self, renderer: &mut Renderer);
+}
+
 crate::define_object!(
     "https://vtk.org/doc/nightly/html/classvtkRenderer.html",
     @name Renderer, ffi::vtkRenderer,
@@ -57,10 +64,36 @@ unsafe impl Send for Renderer {}
 unsafe impl Sync for Renderer {}
 
 impl Renderer {
-    pub fn add_actor(&mut self, actor: &mut crate::Actor) {
+    /// Add any actor type (3D or 2D) to the renderer.
+    /// Works with Actor, TextActor, ScalarBarActor, Follower, CubeAxesActor, etc.
+    ///
+    /// # Example
+    /// ```no_run
+    /// # use vtk_rs::*;
+    /// let mut renderer = Renderer::new();
+    /// let mut actor = Actor::new();
+    /// let mut text_actor = TextActor::new();
+    ///
+    /// renderer.add_actor(&mut actor);      // 3D actor
+    /// renderer.add_actor(&mut text_actor); // 2D actor
+    /// ```
+    pub fn add_actor<T: AddableToRenderer>(&mut self, actor: &mut T) {
+        actor.add_to_renderer_internal(self);
+    }
+
+    /// Internal method for adding a 3D actor (vtkActor).
+    #[doc(hidden)]
+    pub fn _add_actor_3d(&mut self, actor_ptr: *mut ffi::vtkActor) {
         unsafe {
-            let actor_ptr = actor.as_mut_ptr() as *mut ffi::vtkActor;
             ffi::renderer_add_actor(self.ptr.as_mut(), actor_ptr);
+        }
+    }
+
+    /// Internal method for adding a 2D actor (vtkActor2D).
+    #[doc(hidden)]
+    pub fn _add_actor_2d(&mut self, actor_ptr: *mut ffi::vtkActor2D) {
+        unsafe {
+            ffi::renderer_add_actor2d(self.ptr.as_mut(), actor_ptr);
         }
     }
 
@@ -68,12 +101,20 @@ impl Renderer {
     ///
     /// # Safety
     /// The pointer must be a valid vtkActor pointer or subclass.
+    ///
+    /// # Deprecated
+    /// Use the generic `add_actor()` method instead, which works with all actor types safely.
+    #[deprecated(since = "0.2.0", note = "Use generic add_actor() instead")]
     pub unsafe fn add_actor_raw(&mut self, actor_ptr: *mut std::ffi::c_void) {
         let actor_ptr = actor_ptr as *mut ffi::vtkActor;
         ffi::renderer_add_actor(self.ptr.as_mut(), actor_ptr);
     }
 
     /// Add a 2D actor (like ScalarBarActor or LegendBoxActor) to the renderer
+    ///
+    /// # Deprecated
+    /// Use the generic `add_actor()` method instead.
+    #[deprecated(since = "0.2.0", note = "Use generic add_actor() instead")]
     pub fn add_scalar_bar(&mut self, actor: &mut crate::ScalarBarActor) {
         unsafe {
             let actor_ptr = actor.as_raw_ptr() as *mut ffi::vtkActor2D;
@@ -82,6 +123,10 @@ impl Renderer {
     }
 
     /// Add a legend box actor to the renderer
+    ///
+    /// # Deprecated
+    /// Use the generic `add_actor()` method instead.
+    #[deprecated(since = "0.2.0", note = "Use generic add_actor() instead")]
     pub fn add_legend_box(&mut self, actor: &mut crate::LegendBoxActor) {
         unsafe {
             let actor_ptr = actor.as_raw_ptr() as *mut ffi::vtkActor2D;
@@ -91,6 +136,10 @@ impl Renderer {
 
     /// Add a follower (billboard actor) to the renderer.
     /// vtkFollower inherits from vtkActor, so this is type-safe.
+    ///
+    /// # Deprecated
+    /// Use the generic `add_actor()` method instead.
+    #[deprecated(since = "0.2.0", note = "Use generic add_actor() instead")]
     pub fn add_follower(&mut self, follower: &mut crate::Follower) {
         unsafe {
             let actor_ptr = follower.as_raw_ptr() as *mut ffi::vtkActor;
