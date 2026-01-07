@@ -53,7 +53,7 @@ impl Follower {
         }
     }
 
-    pub fn set_camera_ref(&mut self, camera: &mut crate::vtk_renderer::CameraRef) {
+    pub fn set_camera_ref(&mut self, camera: &mut crate::CameraRef) {
         unsafe {
             ffi::follower_set_camera(self.as_mut(), camera.as_mut_ptr() as usize);
         }
@@ -106,5 +106,58 @@ impl Follower {
 impl Drop for Follower {
     fn drop(&mut self) {
         ffi::vtk_follower_delete(self.as_mut());
+    }
+}
+
+/// A non-owning, Send-safe reference to a Follower.
+/// Useful for capturing followers in closures for callbacks/observers.
+///
+/// # Safety
+/// The follower must remain valid for the lifetime of this reference.
+/// This type is Send to allow use in callbacks, but the user must ensure
+/// the follower is not accessed from multiple threads simultaneously.
+pub struct FollowerRef {
+    ptr: *mut ffi::vtkFollower,
+}
+
+unsafe impl Send for FollowerRef {}
+
+impl FollowerRef {
+    /// Create a FollowerRef from a mutable reference to a Follower.
+    /// The follower must remain valid for the lifetime of this reference.
+    pub fn from_follower(follower: &mut Follower) -> Self {
+        Self { ptr: follower.ptr }
+    }
+
+    fn as_mut(&self) -> Pin<&mut ffi::vtkFollower> {
+        unsafe { Pin::new_unchecked(&mut *self.ptr) }
+    }
+
+    /// Convenience method to set position without dereferencing.
+    pub fn set_position(&self, x: f64, y: f64, z: f64) {
+        ffi::follower_set_position(self.as_mut(), x, y, z)
+    }
+
+    /// Convenience method to get position without dereferencing.
+    pub fn get_position(&self) -> [f64; 3] {
+        let mut x = 0.0;
+        let mut y = 0.0;
+        let mut z = 0.0;
+        ffi::follower_get_position(self.as_mut(), &mut x, &mut y, &mut z);
+        [x, y, z]
+    }
+
+    /// Convenience method to set scale without dereferencing.
+    pub fn set_scale(&self, x: f64, y: f64, z: f64) {
+        ffi::follower_set_scale(self.as_mut(), x, y, z)
+    }
+
+    /// Convenience method to get scale without dereferencing.
+    pub fn get_scale(&self) -> [f64; 3] {
+        let mut x = 0.0;
+        let mut y = 0.0;
+        let mut z = 0.0;
+        ffi::follower_get_scale(self.as_mut(), &mut x, &mut y, &mut z);
+        [x, y, z]
     }
 }

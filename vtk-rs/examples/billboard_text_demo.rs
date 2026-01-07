@@ -1,49 +1,5 @@
 use vtk_rs as vtk;
-use std::cell::RefCell;
-use std::rc::Rc;
-
-// Callback data structure
-struct LabelUpdateData {
-    followers: Vec<*mut vtk::Follower>,
-    camera_ptr: *mut std::ffi::c_void,
-}
-
-// Extern "C" callback for camera events
-extern "C" fn update_label_scales(caller: usize, _event_id: usize, user_data: usize) {
-    unsafe {
-        let data = &mut *(user_data as *mut LabelUpdateData);
-
-        // Cast the camera pointer back - it's actually pointing to vtkCamera FFI type
-        // We need to get position through the FFI
-        use core::pin::Pin;
-
-        let camera_ptr = data.camera_ptr as *mut vtk::camera_ffi::vtkCamera;
-        let mut x = 0.0;
-        let mut y = 0.0;
-        let mut z = 0.0;
-        vtk::camera_ffi::camera_get_position(
-            Pin::new_unchecked(&mut *camera_ptr),
-            &mut x,
-            &mut y,
-            &mut z
-        );
-
-        for follower_ptr in &data.followers {
-            let follower = &mut **follower_ptr;
-            let label_pos = follower.get_position();
-
-            // Calculate distance from camera to label
-            let dx = x - label_pos[0];
-            let dy = y - label_pos[1];
-            let dz = z - label_pos[2];
-            let distance = (dx * dx + dy * dy + dz * dz).sqrt();
-
-            // Scale proportional to distance for constant screen size
-            let scale = distance * 0.015;
-            follower.set_scale(scale, scale, scale);
-        }
-    }
-}
+use vtk::CameraObserverExt;
 
 fn main() {
     println!("=== VTK Billboard Text Demo - FEM Node Labels ===\n");
@@ -140,9 +96,6 @@ fn main() {
     // Get camera position for initial distance-based scaling
     let cam_pos = camera.get_position();
 
-    // Collect follower pointers for the observer callback
-    let mut follower_ptrs: Vec<*mut vtk::Follower> = Vec::new();
-
     // Assign camera to all followers and set initial scale
     for follower in &mut label_followers {
         follower.set_camera_ref(&mut camera);
@@ -156,45 +109,38 @@ fn main() {
         let scale = distance * 0.015;
         follower.set_scale(scale, scale, scale);
 
-        // Add follower to renderer
-        unsafe {
-            renderer.add_actor_raw(follower.as_raw_ptr() as *mut std::ffi::c_void);
+        // Add follower to renderer using safe wrapper
+        renderer.add_follower(follower);
+    }
+
+    println!("Registering camera observer with closure callback...");
+
+    // Register a closure-based observer on the camera
+    // The closure captures follower_refs and updates their scales when camera moves
+    let follower_refs: Vec<vtk::FollowerRef> = label_followers
+        .iter_mut()
+        .map(|f| vtk::FollowerRef::from_follower(f))
+        .collect();
+
+    let (_observer_tag, _command) = camera.on_modified(move |camera_ref| {
+        let (x, y, z) = camera_ref.get_position();
+
+        for follower_ref in &follower_refs {
+            let label_pos = follower_ref.get_position();
+
+            // Calculate distance from camera to label
+            let dx = x - label_pos[0];
+            let dy = y - label_pos[1];
+            let dz = z - label_pos[2];
+            let distance = (dx * dx + dy * dy + dz * dz).sqrt();
+
+            // Scale proportional to distance for constant screen size
+            let scale = distance * 0.015;
+            follower_ref.set_scale(scale, scale, scale);
         }
-
-        // Store pointer for observer callback
-        follower_ptrs.push(follower as *mut _);
-    }
-
-    println!("DEBUG: About to create observer command");
-
-    // Create observer command for camera modification events
-    let mut command = vtk::Command::new();
-
-    println!("DEBUG: Command created successfully");
-
-    // Create callback data (will be leaked to ensure it lives for the whole program)
-    let callback_data = Box::new(LabelUpdateData {
-        followers: follower_ptrs,
-        camera_ptr: camera.as_mut_ptr() as *mut std::ffi::c_void,
     });
-    let callback_data_ptr = Box::into_raw(callback_data);
 
-    println!("DEBUG: About to set callback");
-
-    // Set the callback
-    unsafe {
-        command.set_callback(update_label_scales, callback_data_ptr as usize);
-    }
-
-    println!("DEBUG: Callback set, about to add observer");
-
-    // Add observer to camera for MODIFIED_EVENT (fires when camera moves/zooms)
-    let _observer_tag = unsafe {
-        use vtk::Observable;
-        camera.add_observer(vtk::events::MODIFIED_EVENT, &mut command)
-    };
-
-    println!("DEBUG: Observer added successfully");
+    println!("Observer registered successfully");
 
     println!("\n=== Rendering Configuration ===");
     println!("Window size: 1400x900");
@@ -205,7 +151,7 @@ fn main() {
     println!("\n=== Billboard Text Behavior ===");
     println!("- Text labels ALWAYS face the camera (billboard effect)");
     println!("- Text scale DYNAMICALLY ADJUSTS to maintain constant screen size!");
-    println!("- Uses VTK observer pattern to update on camera modifications");
+    println!("- Uses closure-based camera observer (safe Rust API)");
     println!("- Perfect for FEM node IDs, point annotations, markers");
 
     println!("\n=== Controls ===");
@@ -214,11 +160,11 @@ fn main() {
     println!("- Right mouse / Scroll: Zoom");
     println!("- Notice: Labels STAY SAME SIZE when you zoom in/out!");
 
-    println!("\nImplementation: Camera observer fires MODIFIED_EVENT on move/zoom");
-    println!("Callback dynamically updates follower scales based on distance");
+    println!("\nImplementation: Closure callback fires on camera MODIFIED_EVENT");
+    println!("No unsafe blocks or manual pointer management needed!");
 
     // Keep command alive for the duration of the program
-    let _command_keeper = command;
+    // (stored in _command, which will be dropped at end of main)
 
     render_window.render();
     interactor.start();

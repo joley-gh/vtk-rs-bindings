@@ -5,10 +5,13 @@ pub(crate) mod ffi {
     unsafe extern "C++" {
         include!("vtk_area_picker.h");
         include!("vtk_renderer.h");
+        include!("vtk_prop3d_collection.h");
 
         type vtkAreaPicker;
         type vtkRenderer;
         type vtkProp3DCollection;
+        type vtkProp3D;
+        type vtkActor;
 
         fn vtk_area_picker_new() -> *mut vtkAreaPicker;
         fn vtk_area_picker_delete(picker: Pin<&mut vtkAreaPicker>);
@@ -23,6 +26,12 @@ pub(crate) mod ffi {
         ) -> i32;
 
         fn vtk_area_picker_get_prop3ds(picker: Pin<&mut vtkAreaPicker>) -> *mut vtkProp3DCollection;
+        unsafe fn vtk_prop3d_collection_get_size(col: *mut vtkProp3DCollection) -> i32;
+        unsafe fn vtk_prop3d_collection_get_item(
+            col: *mut vtkProp3DCollection,
+            index: i32
+        ) -> *mut vtkProp3D;
+        unsafe fn vtk_prop3d_to_actor(prop: *mut vtkProp3D) -> *mut vtkActor;
     }
 }
 
@@ -68,10 +77,21 @@ impl AreaPicker {
     }
 
     /// Get the collection of Prop3D objects that were picked.
-    /// Returns a raw pointer to vtkProp3DCollection - currently unimplemented in wrapper.
-    ///
-    /// TODO: Implement Prop3DCollection wrapper to safely iterate picked objects
-    pub fn get_prop3ds(&mut self) -> *mut ffi::vtkProp3DCollection {
-        unsafe { ffi::vtk_area_picker_get_prop3ds(Pin::new_unchecked(&mut *self.as_mut_ptr())) }
+    /// Returns a safe non-owning `Prop3DCollectionRef` wrapper or `None` when
+    /// no props were picked.
+    pub fn get_prop3ds(&mut self) -> Option<crate::Prop3DCollectionRef> {
+        let ptr = unsafe {
+            ffi::vtk_area_picker_get_prop3ds(Pin::new_unchecked(&mut *self.as_mut_ptr()))
+        };
+        // Safety: the pointer is owned by VTK; we only create a non-owning view
+        unsafe {
+            crate::vtk_prop3d_collection::Prop3DCollectionRef::from_raw(ptr)
+        }
+    }
+
+    /// Convenience: return a `Vec<ActorRef>` for any actors found in the
+    /// picked prop collection.
+    pub fn get_actor_refs(&mut self) -> Vec<crate::ActorRef> {
+        if let Some(mut col) = self.get_prop3ds() { col.get_actor_refs() } else { Vec::new() }
     }
 }

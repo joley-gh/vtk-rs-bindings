@@ -13,12 +13,13 @@ use macros::*;
 mod algorithm_output_port;
 mod vtk_abstract_mapper;
 mod vtk_abstract_mapper_3d;
-mod vtk_actor;
+pub mod vtk_actor;
 mod vtk_algorithm;
 mod vtk_algorithm_output;
 mod vtk_axes_actor;
 mod vtk_camera;
 pub use vtk_camera::ffi as camera_ffi;
+mod vtk_camera_observers;
 mod vtk_cell_array;
 mod vtk_cell_data;
 mod vtk_cell_picker;
@@ -41,6 +42,7 @@ mod vtk_int_array;
 mod vtk_interactor_style_custom;
 mod vtk_interactor_style_rubber_band_pick;
 mod vtk_interactor_style_trackball_camera;
+mod vtk_interactor_style_trackball_actor;
 mod vtk_line_source;
 mod vtk_mapper;
 mod vtk_named_colors;
@@ -64,6 +66,7 @@ mod vtk_glyph_3d;
 mod vtk_world_point_picker;
 mod vtk_point_picker;
 mod vtk_area_picker;
+mod vtk_prop3d_collection;
 mod vtk_parametric_function;
 mod vtk_parametric_function_source;
 mod vtk_parametric_torus;
@@ -94,6 +97,7 @@ mod vtk_interactor_style_image;
 extern "C" {
     fn vtk_force_init();
 }
+mod actor_ref;
 
 /// Initialize VTK modules. This is called automatically when using VTK objects.
 #[doc(hidden)]
@@ -115,6 +119,7 @@ pub use vtk_algorithm::*;
 pub use vtk_algorithm_output::*;
 pub use vtk_axes_actor::*;
 pub use vtk_camera::*;
+pub use vtk_camera_observers::*;
 pub use vtk_cell_array::*;
 pub use vtk_cell_data::*;
 pub use vtk_cell_picker::*;
@@ -137,6 +142,7 @@ pub use vtk_int_array::*;
 pub use vtk_interactor_style_custom::*;
 pub use vtk_interactor_style_rubber_band_pick::*;
 pub use vtk_interactor_style_trackball_camera::*;
+pub use vtk_interactor_style_trackball_actor::*;
 
 // Re-export interactor_style_custom submodule for rubber band drawing functions
 pub mod interactor_style_custom {
@@ -166,6 +172,7 @@ pub use vtk_glyph_3d::*;
 pub use vtk_world_point_picker::*;
 pub use vtk_point_picker::*;
 pub use vtk_area_picker::*;
+pub use vtk_prop3d_collection::*;
 // pub use vtk_parametric_function::*;  // No public types to export from base class
 pub use vtk_parametric_function_source::*;
 pub use vtk_parametric_torus::*;
@@ -189,3 +196,4 @@ pub use vtk_plane::*;
 pub use vtk_clip_poly_data::*;
 pub use vtk_warp_vector::*;
 pub use vtk_interactor_style_image::*;
+pub use actor_ref::ActorRef;

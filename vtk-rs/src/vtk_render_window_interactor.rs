@@ -64,6 +64,17 @@ impl RenderWindowInteractor {
         }
     }
 
+    /// Sets the interactor style for actor trackball interaction.
+    pub fn set_interactor_style_trackball_actor(
+        &mut self,
+        style: &mut crate::InteractorStyleTrackballActor
+    ) {
+        unsafe {
+            let style_ptr = style.as_mut_ptr() as *mut ffi::vtkInteractorStyle;
+            ffi::render_window_interactor_set_interactor_style(self.ptr.as_mut(), style_ptr);
+        }
+    }
+
     pub fn initialize(&mut self) {
         ffi::render_window_interactor_initialize(self.ptr.as_mut());
     }

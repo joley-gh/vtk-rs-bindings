@@ -77,12 +77,12 @@ impl PropPicker {
     }
 
     /// Get the picked prop (actor, volume, etc.)
-    pub fn get_view_prop(&mut self) -> *mut ffi::vtkProp {
+    pub unsafe fn get_view_prop(&mut self) -> *mut ffi::vtkProp {
         unsafe { ffi::prop_picker_get_view_prop(self.ptr.as_mut()) }
     }
 
     /// Get the picked actor (if the picked prop is an actor)
-    pub fn get_actor(&mut self) -> *mut ffi::vtkActor {
+    pub unsafe fn get_actor(&mut self) -> *mut ffi::vtkActor {
         unsafe { ffi::prop_picker_get_actor(self.ptr.as_mut()) }
     }
 
@@ -94,6 +94,26 @@ impl PropPicker {
     /// Enable/disable picking from the pick list only
     pub fn set_pick_from_list(&mut self, enabled: bool) {
         ffi::prop_picker_set_pick_from_list(self.ptr.as_mut(), enabled);
+    }
+
+    /// Return an `Option<ActorRef>` for the actor picked by the most recent
+    /// `pick()`/`pick_with_ptr()` call. This keeps `pick()`'s signature stable
+    /// (it still returns `bool`) while offering a safe way to obtain a typed
+    /// non-owning reference to the picked actor.
+    ///
+    /// # Notes
+    /// - This does not perform a pick itself; callers must call `pick()` or
+    ///   `pick_with_ptr()` first.
+    /// - `ActorRef` is non-owning and must not be stored beyond the callback
+    ///   lifetime or used from other threads.
+    pub fn get_actor_ref(&mut self) -> Option<crate::ActorRef> {
+        let actor_ptr = unsafe { ffi::prop_picker_get_actor(self.ptr.as_mut()) };
+        if actor_ptr.is_null() {
+            None
+        } else {
+            let actor_ptr = actor_ptr as *mut crate::vtk_actor::ffi::vtkActor;
+            crate::actor_ref::ActorRef::from_raw(actor_ptr)
+        }
     }
 }
 

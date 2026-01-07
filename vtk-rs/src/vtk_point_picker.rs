@@ -1,3 +1,5 @@
+use core::pin::Pin;
+
 #[cxx::bridge]
 mod ffi {
     unsafe extern "C++" {

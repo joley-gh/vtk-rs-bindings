@@ -60,7 +60,7 @@ impl CubeAxesActor {
     }
 
     /// Sets the camera (required for proper orientation of labels).
-    pub fn set_camera(&mut self, camera: &mut crate::vtk_renderer::CameraRef) {
+    pub fn set_camera(&mut self, camera: &mut crate::CameraRef) {
         unsafe {
             let camera_ptr = camera.as_mut_ptr() as *mut ffi::vtkCamera;
             ffi::cube_axes_actor_set_camera(self.ptr.as_mut(), camera_ptr);

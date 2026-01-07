@@ -101,7 +101,8 @@ add_library(vtkrs STATIC
    ${PROJECT_SOURCE_DIR}/include/vtk_plane.h
    ${PROJECT_SOURCE_DIR}/include/vtk_clip_poly_data.h
    ${PROJECT_SOURCE_DIR}/include/vtk_warp_vector.h
-   ${PROJECT_SOURCE_DIR}/include/vtk_warp_vector.rs.h
+   ${PROJECT_SOURCE_DIR}/include/vtk_interactor_style_trackball_actor.h
+   ${PROJECT_SOURCE_DIR}/include/vtk_prop3d_collection.h
 )
 
 if (VTK094)
@@ -187,6 +188,9 @@ target_sources(vtkrs
         ${PROJECT_SOURCE_DIR}/src/vtk_plane.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_clip_poly_data.cpp
         ${PROJECT_SOURCE_DIR}/src/vtk_warp_vector.cpp
+        ${PROJECT_SOURCE_DIR}/src/vtk_warp_vector.cpp
+        ${PROJECT_SOURCE_DIR}/src/vtk_interactor_style_trackball_actor.cpp
+        ${PROJECT_SOURCE_DIR}/src/vtk_prop3d_collection.cpp
 )
 set_target_properties(vtkrs PROPERTIES LINKER_LANGUAGE CXX)
 

@@ -13,6 +13,27 @@ struct CallbackRegistry {
     left_press_callbacks: HashMap<i64, Box<dyn Fn(i32, i32) + Send>>,
     left_release_callbacks: HashMap<i64, Box<dyn Fn(i32, i32) + Send>>,
     mouse_move_callbacks: HashMap<i64, Box<dyn Fn(i32, i32) + Send>>,
+    // Actor-aware callbacks receive the actor pointer (nullable) as third arg
+    left_press_actor_callbacks: HashMap<
+        i64,
+        Box<dyn Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send>
+    >,
+    left_release_actor_callbacks: HashMap<
+        i64,
+        Box<dyn Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send>
+    >,
+    mouse_move_actor_callbacks: HashMap<
+        i64,
+        Box<dyn Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send>
+    >,
+    middle_press_actor_callbacks: HashMap<
+        i64,
+        Box<dyn Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send>
+    >,
+    middle_release_actor_callbacks: HashMap<
+        i64,
+        Box<dyn Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send>
+    >,
     key_press_callbacks: HashMap<i64, Box<dyn (Fn(&str) -> bool) + Send>>,
     right_press_callbacks: HashMap<i64, Box<dyn Fn(i32, i32) + Send>>,
     right_release_callbacks: HashMap<i64, Box<dyn Fn(i32, i32) + Send>>,
@@ -28,6 +49,11 @@ impl CallbackRegistry {
             left_release_callbacks: HashMap::new(),
             mouse_move_callbacks: HashMap::new(),
             key_press_callbacks: HashMap::new(),
+            left_press_actor_callbacks: HashMap::new(),
+            left_release_actor_callbacks: HashMap::new(),
+            mouse_move_actor_callbacks: HashMap::new(),
+            middle_press_actor_callbacks: HashMap::new(),
+            middle_release_actor_callbacks: HashMap::new(),
             right_press_callbacks: HashMap::new(),
             right_release_callbacks: HashMap::new(),
             middle_press_callbacks: HashMap::new(),
@@ -55,6 +81,51 @@ impl CallbackRegistry {
         let id = self.next_id;
         self.next_id += 1;
         self.mouse_move_callbacks.insert(id, Box::new(callback));
+        id
+    }
+
+    fn register_left_press_with_actor<F>(&mut self, callback: F) -> i64
+        where F: Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send + 'static
+    {
+        let id = self.next_id;
+        self.next_id += 1;
+        self.left_press_actor_callbacks.insert(id, Box::new(callback));
+        id
+    }
+
+    fn register_left_release_with_actor<F>(&mut self, callback: F) -> i64
+        where F: Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send + 'static
+    {
+        let id = self.next_id;
+        self.next_id += 1;
+        self.left_release_actor_callbacks.insert(id, Box::new(callback));
+        id
+    }
+
+    fn register_mouse_move_with_actor<F>(&mut self, callback: F) -> i64
+        where F: Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send + 'static
+    {
+        let id = self.next_id;
+        self.next_id += 1;
+        self.mouse_move_actor_callbacks.insert(id, Box::new(callback));
+        id
+    }
+
+    fn register_middle_press_with_actor<F>(&mut self, callback: F) -> i64
+        where F: Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send + 'static
+    {
+        let id = self.next_id;
+        self.next_id += 1;
+        self.middle_press_actor_callbacks.insert(id, Box::new(callback));
+        id
+    }
+
+    fn register_middle_release_with_actor<F>(&mut self, callback: F) -> i64
+        where F: Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send + 'static
+    {
+        let id = self.next_id;
+        self.next_id += 1;
+        self.middle_release_actor_callbacks.insert(id, Box::new(callback));
         id
     }
 
@@ -157,6 +228,46 @@ pub fn register_mouse_move_callback<F>(callback: F) -> i64 where F: Fn(i32, i32)
     registry.as_mut().unwrap().register_mouse_move(callback)
 }
 
+pub fn register_left_press_callback_with_actor<F>(callback: F) -> i64
+    where F: Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send + 'static
+{
+    get_or_create_registry();
+    let mut registry = CALLBACK_REGISTRY.lock().unwrap();
+    registry.as_mut().unwrap().register_left_press_with_actor(callback)
+}
+
+pub fn register_left_release_callback_with_actor<F>(callback: F) -> i64
+    where F: Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send + 'static
+{
+    get_or_create_registry();
+    let mut registry = CALLBACK_REGISTRY.lock().unwrap();
+    registry.as_mut().unwrap().register_left_release_with_actor(callback)
+}
+
+pub fn register_mouse_move_callback_with_actor<F>(callback: F) -> i64
+    where F: Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send + 'static
+{
+    get_or_create_registry();
+    let mut registry = CALLBACK_REGISTRY.lock().unwrap();
+    registry.as_mut().unwrap().register_mouse_move_with_actor(callback)
+}
+
+pub fn register_middle_press_callback_with_actor<F>(callback: F) -> i64
+    where F: Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send + 'static
+{
+    get_or_create_registry();
+    let mut registry = CALLBACK_REGISTRY.lock().unwrap();
+    registry.as_mut().unwrap().register_middle_press_with_actor(callback)
+}
+
+pub fn register_middle_release_callback_with_actor<F>(callback: F) -> i64
+    where F: Fn(i32, i32, *mut crate::vtk_actor::ffi::vtkActor) + Send + 'static
+{
+    get_or_create_registry();
+    let mut registry = CALLBACK_REGISTRY.lock().unwrap();
+    registry.as_mut().unwrap().register_middle_release_with_actor(callback)
+}
+
 pub fn register_key_press_callback<F>(callback: F) -> i64 where F: Fn(&str) -> bool + Send + 'static {
     get_or_create_registry();
     let mut registry = CALLBACK_REGISTRY.lock().unwrap();
@@ -216,6 +327,126 @@ pub extern "C" fn vtk_rs_mouse_move_callback(callback_id: i64, x: i32, y: i32) {
                 let _ = std::panic::catch_unwind(
                     std::panic::AssertUnwindSafe(|| {
                         callback(x, y);
+                    })
+                );
+            }
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn vtk_rs_left_button_press_callback_with_actor(
+    callback_id: i64,
+    x: i32,
+    y: i32,
+    actor: *mut crate::vtk_actor::ffi::vtkActor
+) {
+    if callback_id == 0 {
+        return;
+    }
+
+    if let Ok(registry) = CALLBACK_REGISTRY.try_lock() {
+        if let Some(ref reg) = *registry {
+            if let Some(callback) = reg.left_press_actor_callbacks.get(&callback_id) {
+                let _ = std::panic::catch_unwind(
+                    std::panic::AssertUnwindSafe(|| {
+                        callback(x, y, actor);
+                    })
+                );
+            }
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn vtk_rs_left_button_release_callback_with_actor(
+    callback_id: i64,
+    x: i32,
+    y: i32,
+    actor: *mut crate::vtk_actor::ffi::vtkActor
+) {
+    if callback_id == 0 {
+        return;
+    }
+
+    if let Ok(registry) = CALLBACK_REGISTRY.try_lock() {
+        if let Some(ref reg) = *registry {
+            if let Some(callback) = reg.left_release_actor_callbacks.get(&callback_id) {
+                let _ = std::panic::catch_unwind(
+                    std::panic::AssertUnwindSafe(|| {
+                        callback(x, y, actor);
+                    })
+                );
+            }
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn vtk_rs_mouse_move_callback_with_actor(
+    callback_id: i64,
+    x: i32,
+    y: i32,
+    actor: *mut crate::vtk_actor::ffi::vtkActor
+) {
+    if callback_id == 0 {
+        return;
+    }
+
+    if let Ok(registry) = CALLBACK_REGISTRY.try_lock() {
+        if let Some(ref reg) = *registry {
+            if let Some(callback) = reg.mouse_move_actor_callbacks.get(&callback_id) {
+                let _ = std::panic::catch_unwind(
+                    std::panic::AssertUnwindSafe(|| {
+                        callback(x, y, actor);
+                    })
+                );
+            }
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn vtk_rs_middle_button_press_callback_with_actor(
+    callback_id: i64,
+    x: i32,
+    y: i32,
+    actor: *mut crate::vtk_actor::ffi::vtkActor
+) {
+    if callback_id == 0 {
+        return;
+    }
+
+    if let Ok(registry) = CALLBACK_REGISTRY.try_lock() {
+        if let Some(ref reg) = *registry {
+            if let Some(callback) = reg.middle_press_actor_callbacks.get(&callback_id) {
+                let _ = std::panic::catch_unwind(
+                    std::panic::AssertUnwindSafe(|| {
+                        callback(x, y, actor);
+                    })
+                );
+            }
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn vtk_rs_middle_button_release_callback_with_actor(
+    callback_id: i64,
+    x: i32,
+    y: i32,
+    actor: *mut crate::vtk_actor::ffi::vtkActor
+) {
+    if callback_id == 0 {
+        return;
+    }
+
+    if let Ok(registry) = CALLBACK_REGISTRY.try_lock() {
+        if let Some(ref reg) = *registry {
+            if let Some(callback) = reg.middle_release_actor_callbacks.get(&callback_id) {
+                let _ = std::panic::catch_unwind(
+                    std::panic::AssertUnwindSafe(|| {
+                        callback(x, y, actor);
                     })
                 );
             }
